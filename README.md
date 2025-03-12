@@ -2,8 +2,14 @@
 
 ## Getting Started
 
-1. **Install NodeJS**: If you don't have NodeJS, download it here and follow the instructions on the website.
-2. **Check Node and npm**: Verify that Node and npm are installed.
+1. **Install NodeJS**: If you don't have NodeJS, download it and follow the instructions on the website. (https://nodejs.org/en/download)
+2. **Check Node and npm**: Verify that Node and npm are installed. If you have not coded before you might need to give powershell script user access
+    ```bash
+    node -v
+    ```
+    ```bash
+    npm -v
+    ```
 3. **Install Yarn**: Run the command below to install Yarn globally:
     ```bash
     npm install --global yarn
