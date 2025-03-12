@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Your CSS file or component */
+.bg-custom-orange {
+  background-color: #f09551;
+}
+
+:root {
+    --first-color: #f09551;
+    --second-color: #f8f8f8;
+    --third-color: #010101;
+    --fourth-color: #f6e0b7;
+  }
+  

@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "axios": "^1.6.5",
+    "nodemailer": "^6.9.8",
+    "react-fade-in": "^2.0.1",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.15.0"
+  }
+}
