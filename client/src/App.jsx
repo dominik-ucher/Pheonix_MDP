@@ -4,20 +4,31 @@ import {
   Outlet,
 } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-// import Navbar from "./components/Navbar"; TO-DO
-// import Footer from "./components/Footer"; TO-DO
-import Home from "./pages/Home"
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home/Home"
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
+import Company_Appl_Dashboard from "./pages/Company_Appl_Dashboard/Company_Appl_Dashboard";
+import Company_Appl_Page from "./pages/Company_Appl_Page/Company_Appl_Page";
+import Company_Dashboard from "./pages/Company_Dashboard/Company_Dashboard";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import User_Appl_Page from "./pages/User_Appl_Page/User_Appl_Page";
+import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
+import User_Profile from "./pages/User_Profile/User_Profile";
+
+
+
 
 
 const Layout = () =>{
   return (
     <>
     <ScrollToTop />
-    {/* <Navbar /> */}
+    <Navbar />
     <Outlet />
-    {/* <Footer /> */}
+    <Footer />
     </>
   );
 };
@@ -39,7 +50,39 @@ const router = createBrowserRouter([
         path:"/contact",
         element:<Contact/>,
       },
+      {
+        path:"/company_appl_dashboard",
+        element:<Company_Appl_Dashboard/>,
+      },
+      {
+        path:"/company_appl_page",
+        element:<Company_Appl_Page/>,
+      },
+      {
+        path:"/company_dashboard",
+        element:<Company_Dashboard/>,
+      },
+      {
+        path:"/user_appl_page",
+        element:<User_Appl_Page/>,
+      },
+      {
+        path:"/user_dashboard",
+        element:<User_Dashboard/>,
+      },
+      {
+        path:"/user_profile",
+        element:<User_Profile/>,
+      },
     ]
+  },
+  {
+    path:"/login",
+    element:<Login/>,
+  },
+  {
+    path:"/register",
+    element:<Register/>,
   },
 ]);
 
