@@ -67,7 +67,7 @@ export default function About() {
                 <h1 className="text-5xl font-bold mb-4">GOLDINGAPP</h1>
                 <h2 className="text-2xl font-bold mb-4 text-gray-700">The platform to enhance the professionalism of senior workers</h2>
                 <div className="flex flex-col md:flex-row items-center">
-                    <img src="../../../img/logo.png" alt="Description" className="w-1/3 rounded-lg mb-4 md:mb-0 md:mr-6" />
+                    <img src="../../../img/logo_2.jpg" alt="Description" className="w-1/3 rounded-lg mb-4 md:mb-0 md:mr-6" />
                     <p className="text-lg text-gray-600">GOLDINGAPP® (Phoenix) is an innovative app designed to connect "silver age" workers (50 and over) of the Baby Boomers and X generations with companies looking for skills, experience and suitability. The platform is based on a win-win logic: on the one hand, giving companies privileged access to highly qualified and motivated people; On the other hand, it helps senior professionals to revalue their expertise by providing flexible job opportunities, consultancy or mentorship.</p>
                 </div>
             </section>

@@ -36,7 +36,8 @@ export default function DefaultNavbar() {
     <div className="main-container top-0 left-0 w-full z-50 bg-black" style={{ overflow: 'hidden' }} ref={sidebarRef}> 
       <div className='flex items-center justify-between p-4'>
         <Link className="flex items-center" to="/">
-          <img className="h-12" src={Logo} alt="Logo" />  
+          <img className="h-14" src={Logo} alt="Logo" />  
+          <h1 className="flex items-center justify-center px-6 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">GoldingApp</h1>
         </Link>
         <div className='hidden md:flex md:items-center md:justify-center flex'>
           <div className='flex space-x-4'>
