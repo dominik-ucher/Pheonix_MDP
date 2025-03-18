@@ -14,4 +14,30 @@
     --third-color: #010101;
     --fourth-color: #f6e0b7;
   }
+
+  .home{
+    .posts{
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 100 px;
+
+      .post{
+        display: flex;
+
+        .img{
+          flex:1;
+          img{
+            width: 100%;
+          }
+        }
+
+        .content{
+          flex: 2;
+
+        }
+      }
+      
+    }
+  }
   
