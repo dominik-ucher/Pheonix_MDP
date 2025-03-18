@@ -17,7 +17,8 @@ import Register from "./pages/Register/Register";
 import User_Appl_Page from "./pages/User_Appl_Page/User_Appl_Page";
 import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
 import User_Profile from "./pages/User_Profile/User_Profile";
-
+import NotFoundPage_404 from "./pages/Error/NotFoundPage_404";
+import NotAuthorized_401 from "./pages/Error/NotAuthorized_401";
 
 
 
@@ -74,6 +75,14 @@ const router = createBrowserRouter([
         path:"/user_profile",
         element:<User_Profile/>,
       },
+      {
+        path:"/Unauthorized_401",
+        element:<NotAuthorized_401/>,
+      },
+      {
+        path:'*',
+        element:<NotFoundPage_404/>
+      }
     ]
   },
   {
