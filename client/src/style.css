@@ -15,29 +15,29 @@
     --fourth-color: #f6e0b7;
   }
 
-  .home{
+  /* .home{
     .posts{
       margin-top: 50px;
       display: flex;
       flex-direction: column;
-      gap: 100 px;
+      gap: 150 px;
 
       .post{
         display: flex;
 
         .img{
-          flex:1;
+          flex:2;
           img{
             width: 100%;
           }
         }
 
         .content{
-          flex: 2;
+          flex: 3;
 
         }
       }
       
     }
-  }
+  } */
   
