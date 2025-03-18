@@ -19,7 +19,7 @@ const NotFoundPage_404 = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-1/3 flex justify-center">
         <img className="max-w-full h-auto" src={Logo} alt="Logo" />
       </div>
     </div>
