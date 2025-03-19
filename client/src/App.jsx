@@ -17,7 +17,7 @@ import Register from "./pages/Register/Register";
 import User_Appl_Page from "./pages/User_Appl_Page/User_Appl_Page";
 import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
 import User_Profile from "./pages/User_Profile/User_Profile";
-
+import Speech_to_text from "./pages/Speech_to_text/Speech_to_text";
 
 
 
@@ -73,6 +73,10 @@ const router = createBrowserRouter([
       {
         path:"/user_profile",
         element:<User_Profile/>,
+      },
+      {
+        path:"/speech_to_text",
+        element:<Speech_to_text/>,
       },
     ]
   },
