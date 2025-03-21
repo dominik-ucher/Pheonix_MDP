@@ -18,6 +18,7 @@ import User_Appl_Page from "./pages/User_Appl_Page/User_Appl_Page";
 import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
 import User_Profile from "./pages/User_Profile/User_Profile";
 import Speech_to_text from "./pages/Speech_to_text/Speech_to_text";
+import Text_to_speech from "./pages/Speech_to_text/Text_to_speech";
 
 
 
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path:"/speech_to_text",
         element:<Speech_to_text/>,
+      },
+      {
+        path:"/text_to_speech",
+        element:<Text_to_speech/>,
       },
     ]
   },
