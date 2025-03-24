@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsLayoutSidebarInset } from 'react-icons/bs';
 import Logo from '../../img/logo.png';
 import { AuthContext } from '../context/authContext';
@@ -11,6 +11,8 @@ export default function DefaultNavbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const {currentUser, logout} = useContext(AuthContext);
+  const navigate = useNavigate();
+
 
   const handleLogout = () => {
     logout();
@@ -46,6 +48,8 @@ export default function DefaultNavbar() {
             <Link className='text-lg text-white p-3 hover:bg-gray-700' to="/contact">Contact</Link>
             {currentUser && <span className='text-lg underline text-white p-3'>Hello, {currentUser.username}!</span>}
             {currentUser && <Button color="warning" pill onClick={handleLogout}>Logout</Button>}
+            {!currentUser && <Button color="gray" onClick={() => navigate('/login')}>Login</Button>}
+            {!currentUser && <Button color="gray" onClick={() => navigate('/register')}>Register</Button>}
           </div>
         </div>
         <button className='md:hidden p-2' onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -60,6 +64,8 @@ export default function DefaultNavbar() {
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/about" onClick={() => setSidebarOpen(false)}>About</Link>
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/contact" onClick={() => setSidebarOpen(false)}>Contact</Link>
           {currentUser && <Button color="warning" className="mb-2" pill onClick={handleLogout}>Logout</Button>} 
+          {!currentUser && <Button color="gray" onClick={() => navigate('/login')}>Login</Button>}
+          {!currentUser && <Button color="gray" onClick={() => navigate('/register')}>Register</Button>}
         </div>
       </div>
     </div>
