@@ -47,9 +47,12 @@ export default function DefaultNavbar() {
             <Link className='text-lg text-white p-3 hover:bg-gray-700' to="/about">About</Link>
             <Link className='text-lg text-white p-3 hover:bg-gray-700' to="/contact">Contact</Link>
             {currentUser && <span className='text-lg underline text-white p-3'>Hello, {currentUser.username}!</span>}
-            {currentUser && <Button color="warning" pill onClick={handleLogout}>Logout</Button>}
+            <div className='flex items-center justify-center space-x-4'> 
+            {currentUser && <Button color="gray" onClick="">Profile</Button>}
+            {currentUser && <Button color="warning" onClick={handleLogout}>Logout</Button>}
             {!currentUser && <Button color="gray" onClick={() => navigate('/login')}>Login</Button>}
             {!currentUser && <Button color="gray" onClick={() => navigate('/register')}>Register</Button>}
+            </div>
           </div>
         </div>
         <button className='md:hidden p-2' onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -57,13 +60,14 @@ export default function DefaultNavbar() {
         </button>
       </div>
 
-      <div className={`md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ${sidebarOpen ? 'block' : 'hidden'}`} onClick={() => setSidebarOpen(false)}></div>
+    <div className={`md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ${sidebarOpen ? 'block' : 'hidden'}`} onClick={() => setSidebarOpen(false)}></div>
       <div className={`fixed top-0 right-0 w-3/4 h-full bg-black p-4 transform ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out`}>
         <div className='flex flex-col space-y-4'>
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/" onClick={() => setSidebarOpen(false)}>Home</Link>
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/about" onClick={() => setSidebarOpen(false)}>About</Link>
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/contact" onClick={() => setSidebarOpen(false)}>Contact</Link>
-          {currentUser && <Button color="warning" className="mb-2" pill onClick={handleLogout}>Logout</Button>} 
+          {currentUser && <Button color="gray" className="mb-2" onClick="">Profile</Button>}
+          {currentUser && <Button color="warning" className="mb-2" onClick={handleLogout}>Logout</Button>}
           {!currentUser && <Button color="gray" onClick={() => navigate('/login')}>Login</Button>}
           {!currentUser && <Button color="gray" onClick={() => navigate('/register')}>Register</Button>}
         </div>
