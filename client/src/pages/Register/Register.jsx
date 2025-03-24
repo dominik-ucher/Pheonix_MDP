@@ -25,7 +25,7 @@ const Register = () => {
     
     // Check if any of the input fields are empty
     if (!inputs.username || !inputs.email || !inputs.password) {
-      setError("Please fill in all fields.");
+      setError("Please fill in all fields!");
       return;
     }
 
