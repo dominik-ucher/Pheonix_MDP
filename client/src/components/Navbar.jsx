@@ -33,7 +33,8 @@ export default function DefaultNavbar() {
   }, []);
 
   return (
-    <header className="fixed top-0 w-full z-50 shadow-md bg-gradient-to-r from-black via-gray-900 to-black">
+    // Add "fixed" in the className below for it to follow the screen downwards
+    <header className="top-0 w-full z-50 shadow-md bg-gradient-to-r from-black via-gray-900 to-black">
       <nav ref={sidebarRef}>
         {/* Navbar container */}
         <div className="flex justify-between items-center px-6 py-4">
