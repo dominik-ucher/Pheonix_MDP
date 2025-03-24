@@ -85,13 +85,14 @@ const router = createBrowserRouter([
         path:"/text_to_speech",
         element:<Text_to_speech/>,
       },
+      {
         path:"/Unauthorized_401",
         element:<NotAuthorized_401/>,
       },
       {
         path:'*',
-        element:<NotFoundPage_404/>
-      }
+        element:<NotFoundPage_404/>,
+      },
     ]
   },
   {
