@@ -1,13 +1,3 @@
 client/.env
 
 api/.env
-
-client/node_modules/.vite/deps/_metadata.json
-
-client/node_modules/.vite/deps/flowbite-react.js
-
-client/node_modules/.vite/deps/flowbite-react.js.map
-
-client/node_modules/
-
-api/node_modules/
