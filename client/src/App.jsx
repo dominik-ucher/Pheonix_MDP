@@ -4,12 +4,12 @@ import {
   Outlet,
 } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import Home from "./pages/Home"
+import About from "./pages/about";
 // import Navbar from "./components/Navbar"; TO-DO
 // import Footer from "./components/Footer"; TO-DO
-import Home from "./pages/Home"
-
+import User_Profile from "./pages/User_Profile"
+import Contact from "./pages/Contact"
 
 const Layout = () =>{
   return (
@@ -36,9 +36,14 @@ const router = createBrowserRouter([
         element:<About/>,
       },
       {
-        path:"/contact",
+        path:"/User_Profile",
+        element:<User_Profile/>,
+      },
+      {
+        path:"/Contact",
         element:<Contact/>,
       },
+    
     ]
   },
 ]);
