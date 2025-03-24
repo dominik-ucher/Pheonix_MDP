@@ -19,6 +19,8 @@ import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
 import User_Profile from "./pages/User_Profile/User_Profile";
 import Speech_to_text from "./pages/Speech_to_text/Speech_to_text";
 import Text_to_speech from "./pages/Speech_to_text/Text_to_speech";
+import NotFoundPage_404 from "./pages/Error/NotFoundPage_404";
+import NotAuthorized_401 from "./pages/Error/NotAuthorized_401";
 
 
 
@@ -83,6 +85,13 @@ const router = createBrowserRouter([
         path:"/text_to_speech",
         element:<Text_to_speech/>,
       },
+        path:"/Unauthorized_401",
+        element:<NotAuthorized_401/>,
+      },
+      {
+        path:'*',
+        element:<NotFoundPage_404/>
+      }
     ]
   },
   {

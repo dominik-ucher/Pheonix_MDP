@@ -1,13 +1,21 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { BsLayoutSidebarInset } from 'react-icons/bs';
 import Logo from '../../img/logo.png';
+import { AuthContext } from '../context/authContext';
+import { Button } from 'flowbite-react';
 
 export default function DefaultNavbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+  const {currentUser, logout} = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -28,13 +36,16 @@ export default function DefaultNavbar() {
     <div className="main-container top-0 left-0 w-full z-50 bg-black" style={{ overflow: 'hidden' }} ref={sidebarRef}> 
       <div className='flex items-center justify-between p-4'>
         <Link className="flex items-center" to="/">
-          <img className="h-12" src={Logo} alt="Logo" />  
+          <img className="h-14" src={Logo} alt="Logo" />  
+          <h1 className="flex items-center justify-center px-6 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">GoldingApp</h1>
         </Link>
         <div className='hidden md:flex md:items-center md:justify-center flex'>
           <div className='flex space-x-4'>
             <Link className='text-lg text-white p-3 hover:bg-gray-700' to="/">Home</Link>
             <Link className='text-lg text-white p-3 hover:bg-gray-700' to="/about">About</Link>
             <Link className='text-lg text-white p-3 hover:bg-gray-700' to="/contact">Contact</Link>
+            {currentUser && <span className='text-lg underline text-white p-3'>Hello, {currentUser.username}!</span>}
+            {currentUser && <Button color="warning" pill onClick={handleLogout}>Logout</Button>}
           </div>
         </div>
         <button className='md:hidden p-2' onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -48,6 +59,7 @@ export default function DefaultNavbar() {
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/" onClick={() => setSidebarOpen(false)}>Home</Link>
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/about" onClick={() => setSidebarOpen(false)}>About</Link>
           <Link className='text-sm text-white p-2 hover:bg-gray-700' to="/contact" onClick={() => setSidebarOpen(false)}>Contact</Link>
+          {currentUser && <Button color="warning" className="mb-2" pill onClick={handleLogout}>Logout</Button>} 
         </div>
       </div>
     </div>
