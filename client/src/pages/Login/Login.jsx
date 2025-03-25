@@ -43,9 +43,9 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center items-center h-screen">
-    <div className="bg-gray-200 p-6 rounded-md shadow-md">
-    <div className='flex items-center justify-center'><img src={Logo} alt="" className='w-35 h-20 mr-4'/></div>
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+    <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-300 w-96">
+    <div className='flex items-center justify-center'><img src={Logo} alt="" className='w-32 mr-4'/></div>
     <h2 className="flex justify-center items-center text-2xl font-bold mb-4">Log In</h2>
     <form className="flex max-w-md flex-col gap-4">
     <div>
@@ -79,10 +79,10 @@ const Login = () => {
           onChange={handleChange}
         />
       </div>
-      <Button type="submit" onClick={handleSubmit} disabled={isLoading}>
+      <Button type="submit" onClick={handleSubmit} disabled={isLoading} color="dark">
       {isLoading ? (<Spinner aria-label="Spinner button example" />) : ('Log In' )}
       </Button>
-      {err && <p className='text-red-500 font-bold flex items-center justify-center'>{err}</p>}
+      {err && <p className='bg-red-100 text-red-600 font-semibold text-center p-3 rounded-lg'>{err}</p>}
       <h2>You have not signed up yet?</h2> 
       <h2>Click <Link className="font-bold underline pointer" to="/register">here</Link> to register a new user!</h2>
     </form>
