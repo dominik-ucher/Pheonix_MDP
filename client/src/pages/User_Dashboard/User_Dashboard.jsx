@@ -1,7 +1,6 @@
 "use client";
 import { Button, Card } from "flowbite-react";
 import React from "react";
-import { HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineBuildingOffice2 } from "react-icons/hi2";
 
 export default function Company_Dashboard() {
   return (
@@ -15,35 +14,34 @@ export default function Company_Dashboard() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            {/* Manage Job Listings */}
+            {/* Community work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-              <HiOutlineBriefcase className="w-20 h-20 text-gray-900 mb-6" />
-              <h2 className="text-3xl font-semibold text-gray-900 text-center">Manage Job Listings</h2>
+              <img src="https://via.placeholder.com/150" alt="Community Work" className="w-40 h-40 mb-6 rounded-lg" />
+              <h2 className="text-3xl font-semibold text-gray-900 text-center">Community work</h2>
               <p className="text-2xl text-gray-700 text-center mb-6">Create, update, and remove job postings with ease.</p>
-              <Button color="gray" size = "l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
+              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
                 Go to Job Listings
               </Button>
             </div>
 
             {/* View Applications */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-              <HiOutlineUserGroup className="w-20 h-20 text-gray-900 mb-6" />
-              <h2 className="text-3xl font-semibold text-gray-900 text-center">View Applications</h2>
+              <img src="https://via.placeholder.com/150" alt="Consulting" className="w-40 h-40 mb-6 rounded-lg" />
+              <h2 className="text-3xl font-semibold text-gray-900 text-center">Consulting</h2>
               <p className="text-2xl text-gray-700 text-center mb-6">Review and manage applications from potential candidates.</p>
-              <Button color="gray" size = "l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
+              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
                 View Applications
               </Button>
             </div>
 
-            {/* Edit Company Profile */}
+            {/* Remote work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-              <HiOutlineBuildingOffice2 className="w-20 h-20 text-gray-900 mb-6" />
-              <h2 className="text-3xl font-semibold text-gray-900 text-center">Edit Company Profile</h2>
+              <img src="https://via.placeholder.com/150" alt="Remote Work" className="w-40 h-40 mb-6 rounded-lg" />
+              <h2 className="text-3xl font-semibold text-gray-900 text-center">Remote Work</h2>
               <p className="text-2xl text-gray-700 text-center mb-6">Update company details and business information.</p>
-              <Button color="gray" size = "l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
+              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
                 Edit Profile
               </Button>
-              
             </div>
           </div>
         </Card>
