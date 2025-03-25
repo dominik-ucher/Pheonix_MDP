@@ -52,7 +52,7 @@ export default function DefaultNavbar() {
             <Link to="/about"className="text-white text-lg font-semibold hover:text-yellow-400 transition-transform transform hover:scale-105">About</Link>
             <Link to="/contact" className="text-white text-lg font-semibold hover:text-yellow-400 transition-transform transform hover:scale-105">Contact</Link>
             {currentUser && (<span className="text-yellow-400 font-semibold text-lg">Hello, {currentUser.username}!</span>)}
-            {currentUser && <Button color="gray" pill onClick="">Profile</Button>}
+            {currentUser && <Button color="gray" pill onClick={() => navigate('/user_profile')}>Profile</Button>}
             {currentUser ? (<Button color="warning" pill onClick={handleLogout}>Logout</Button>):(<><Button color="gray" pill onClick={() => navigate('/login')} className="hover:bg-gray-700">Login</Button>
             <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button></>)}
           </div>
@@ -70,7 +70,7 @@ export default function DefaultNavbar() {
             <Link to="/" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>Home</Link>
             <Link to="/about" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>About</Link>
             <Link to="/contact" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>Contact</Link>
-            {currentUser && (<Button color="gray" pill onClick={() => {navigate('/login'); setSidebarOpen(false); }}>Profile</Button>)}
+            {currentUser && (<Button color="gray" pill onClick={() => {navigate('/user_profile'); setSidebarOpen(false); }}>Profile</Button>)}
             {currentUser ? (<Button color="warning" pill onClick={() => {handleLogout(); setSidebarOpen(false);}}>Logout</Button>) : (<><Button color="gray" pill onClick={() => {navigate('/login'); setSidebarOpen(false);}}>Login</Button><Button color="gray" pill onClick={() => {navigate('/register'); setSidebarOpen(false); }}>Register</Button></>)}
           </div>
         </div>
