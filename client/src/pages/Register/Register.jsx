@@ -38,9 +38,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <img className="w-auto h-40 p-5" src={Logo} alt="" />
-      <div className="bg-gray-200 p-6 rounded-md shadow-md">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+      {/* <img className="w-auto h-40 p-5" src={Logo} alt="" /> */}
+      <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-300 w-96">
+        <div className='flex items-center justify-center'><img src={Logo} alt="" className='w-32 mr-4'/></div>
         <h2 className="flex justify-center items-center text-2xl font-bold mb-4">Register</h2>
         <form className="flex max-w-md flex-col gap-4">
           <div>
@@ -95,10 +96,10 @@ const Register = () => {
           </div>
           <div className="flex items-center gap-2">
           </div>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit" color="dark" onClick={handleSubmit}>
             Register Account
           </Button>
-          {err && <p className='text-red-500 font-bold flex jusitfy-center items-center'>{err}</p>}
+          {err && <p className='bg-red-100 text-red-600 font-semibold text-center p-3 rounded-lg'>{err}</p>}
         </form>
       </div>
     </div>
