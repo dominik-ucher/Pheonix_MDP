@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@elastic/elasticsearch": "^8.17.1",
     "axios": "^1.6.5",
     "nodemailer": "^6.9.8",
     "react-fade-in": "^2.0.1",
