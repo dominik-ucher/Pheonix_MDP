@@ -1,6 +1,13 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Client } from '@elastic/elasticsearch';
+
+// professionals auth
+
+const esClient = new Client({
+  node: 'http://localhost:9200', // Elasticsearch server URL
+})
 
 export const register = (req, res) => {
   //CHECK EXISTING USER
