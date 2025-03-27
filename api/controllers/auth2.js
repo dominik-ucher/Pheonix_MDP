@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
   //CHECK EXISTING USER
-  const q = "SELECT * FROM users WHERE email = ? ";
+  const q = "SELECT * FROM companies WHERE email = ? ";
 
   db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -16,7 +16,7 @@ export const register = (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const q = "INSERT INTO users(`email`, `password`, `company_name`, `vat_number`, `ateco_code`, `business_sector`) VALUES (?,?, ?, ?, ?,?)";
+    const q = "INSERT INTO companies(`email`, `password`, `company_name`, `vat_number`, `ateco_code`, `business_sector`) VALUES (?,?, ?, ?, ?,?)";
     const values = [req.body.email, hash, req.body.company_name, req.body.vat_number,  req.body.ateco_code, req.body.business_sector];
 
     db.query(q, [values], (err, data) => {
@@ -29,7 +29,7 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   //CHECK USER
 
-  const q = "SELECT * FROM users WHERE email = ?";
+  const q = "SELECT * FROM companies WHERE email = ?";
 
   db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);

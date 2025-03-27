@@ -11,7 +11,7 @@ const esClient = new Client({
 
 export const register = (req, res) => {
   //CHECK EXISTING USER
-  const q = "SELECT * FROM users WHERE email = ? ";
+  const q = "SELECT * FROM professionals WHERE email = ? OR username = ?";
 
   db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -21,8 +21,8 @@ export const register = (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const q = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `birthdate`) VALUES (?,?, ?, ?, ?)";
-    const values = [req.body.email, hash, req.body.first_name, req.body.last_name,  req.body.birthdate];
+    const q = "INSERT INTO professionals(`username`,`email`,`password`) VALUES (?)";
+    const values = [req.body.username, req.body.email, hash];
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
