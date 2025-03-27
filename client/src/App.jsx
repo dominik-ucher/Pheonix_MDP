@@ -13,7 +13,9 @@ import Company_Appl_Dashboard from "./pages/Company_Appl_Dashboard/Company_Appl_
 import Company_Appl_Page from "./pages/Company_Appl_Page/Company_Appl_Page";
 import Company_Dashboard from "./pages/Company_Dashboard/Company_Dashboard";
 import Login from "./pages/Login/Login";
+import LoginCompany from "./pages/Login/Login_Company";
 import Register from "./pages/Register/Register";
+import RegisterCompany from "./pages/Register/Register_Company";
 import User_Appl_Page from "./pages/User_Appl_Page/User_Appl_Page";
 import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
 import User_Profile from "./pages/User_Profile/User_Profile";
@@ -100,9 +102,17 @@ const router = createBrowserRouter([
     element:<Login/>,
   },
   {
+    path:"/login_company",
+    element:<LoginCompany/>,
+  },
+  {
     path:"/register",
     element:<Register/>,
   },
+  {
+    path:"/register_company",
+    element:<RegisterCompany/>,
+  }
 ]);
 
 function AppRouting() {

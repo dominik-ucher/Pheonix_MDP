@@ -17,6 +17,13 @@ export const AuthContexProvider = ({ children }) => {
     setCurrentUser(res.data);
   };
 
+  const login_company = async (inputs) => {
+    const res = await axiosInstance.post("/api/auth_company/login", inputs,{
+      withCredentials: true,
+    });
+    setCurrentUser(res.data);
+  };
+
   const logout = async (inputs) => {
     await axiosInstance.post("/api/auth/logout",{},{
       withCredentials:true,
