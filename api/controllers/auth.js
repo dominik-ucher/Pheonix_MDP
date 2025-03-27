@@ -1,12 +1,19 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Client } from '@elastic/elasticsearch';
+
+// professionals auth
+
+const esClient = new Client({
+  node: 'http://localhost:9200', // Elasticsearch server URL
+})
 
 export const register = (req, res) => {
   //CHECK EXISTING USER
   const q = "SELECT * FROM professionals WHERE email = ? OR username = ?";
 
-  db.query(q, [req.body.email, req.body.username], (err, data) => {
+  db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length) return res.status(409).json("User already exists!");
 
@@ -27,9 +34,9 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   //CHECK USER
 
-  const q = "SELECT * FROM users WHERE username = ?";
+  const q = "SELECT * FROM users WHERE email = ?";
 
-  db.query(q, [req.body.username], (err, data) => {
+  db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0) return res.status(404).json("User not found!");
 
