@@ -1,13 +1,8 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Client } from '@elastic/elasticsearch';
 
 // professionals auth
-
-const esClient = new Client({
-  node: 'http://localhost:9200', // Elasticsearch server URL
-})
 
 export const register = (req, res) => {
   //CHECK EXISTING USER
@@ -34,7 +29,7 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   //CHECK USER
 
-  const q = "SELECT * FROM users WHERE email = ?";
+  const q = "SELECT * FROM professionals WHERE email = ?";
 
   db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
