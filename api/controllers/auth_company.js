@@ -6,9 +6,9 @@ import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
   //CHECK EXISTING USER
-  const q = "SELECT * FROM users WHERE email = ? ";
+  const q = "SELECT * FROM users WHERE email = ? OR username = ? ";
 
-  db.query(q, [req.body.email], (err, data) => {
+  db.query(q, [req.body.email,req.body.username], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length) return res.status(409).json("User already exists!");
 
@@ -16,8 +16,8 @@ export const register = (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const q = "INSERT INTO users(`email`, `password`, `company_name`, `vat_number`, `ateco_code`, `business_sector`) VALUES (?,?, ?, ?, ?,?)";
-    const values = [req.body.email, hash, req.body.company_name, req.body.vat_number,  req.body.ateco_code, req.body.business_sector];
+    const q = "INSERT INTO users(`username`,`email`, `password`, `company_name`, `vat_number`, `ateco_code`, `business_sector`) VALUES (?,?,?, ?, ?, ?,?)";
+    const values = [req.body.username, req.body.email, hash, req.body.company_name, req.body.vat_number,  req.body.ateco_code, req.body.business_sector];
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
