@@ -2,8 +2,15 @@
 import { Button, Card } from "flowbite-react";
 import React from "react";
 import { HiOutlineBriefcase, HiOutlineUserGroup, HiOutlineBuildingOffice2 } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Company_Dashboard() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  const handleJobListingsClick = () => {
+    navigate('/company_appl_page'); // Navigate to the job listings page
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white p-6">
       {/* Main Content */}
@@ -20,7 +27,12 @@ export default function Company_Dashboard() {
               <HiOutlineBriefcase className="w-20 h-20 text-gray-900 mb-6" />
               <h2 className="text-3xl font-semibold text-gray-900 text-center">Manage Job Listings</h2>
               <p className="text-2xl text-gray-700 text-center mb-6">Create, update, and remove job postings with ease.</p>
-              <Button color="gray" size = "l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
+              <Button 
+                color="gray" 
+                size="l" 
+                className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4"
+                onClick={handleJobListingsClick} // Add onClick handler
+              >
                 Go to Job Listings
               </Button>
             </div>
@@ -30,7 +42,7 @@ export default function Company_Dashboard() {
               <HiOutlineUserGroup className="w-20 h-20 text-gray-900 mb-6" />
               <h2 className="text-3xl font-semibold text-gray-900 text-center">View Applications</h2>
               <p className="text-2xl text-gray-700 text-center mb-6">Review and manage applications from potential candidates.</p>
-              <Button color="gray" size = "l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
+              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
                 View Applications
               </Button>
             </div>
@@ -40,10 +52,9 @@ export default function Company_Dashboard() {
               <HiOutlineBuildingOffice2 className="w-20 h-20 text-gray-900 mb-6" />
               <h2 className="text-3xl font-semibold text-gray-900 text-center">Edit Company Profile</h2>
               <p className="text-2xl text-gray-700 text-center mb-6">Update company details and business information.</p>
-              <Button color="gray" size = "l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
+              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
                 Edit Profile
               </Button>
-              
             </div>
           </div>
         </Card>
