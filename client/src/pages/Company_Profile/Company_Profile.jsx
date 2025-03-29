@@ -1,8 +1,7 @@
 "use client";
 import { Button, Card, TextInput, Select, Textarea, FileInput } from "flowbite-react";
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for routing
-import { HiArrowLeft } from "react-icons/hi2"; // Import back arrow icon
+import { useNavigate } from "react-router-dom"; 
 
 export default function Company_Profile() {
   // Initialize navigation function
