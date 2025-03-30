@@ -8,40 +8,37 @@ export default function Company_Dashboard() {
       {/* Main Content */}
       <div className="flex-grow">
         <Card className="w-full max-w-none text-center shadow-lg p-8 rounded-lg bg-white">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">Company Dashboard</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">Find Your Next Opportunity</h1>
           <p className="text-2xl text-gray-600 mb-8">
-            Manage your job postings, applications, and company profile from one central place.
+            Browse job opportunities, connect with companies, and take the next step in your career journey.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             {/* Community work */}
-            <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-              <img src="https://via.placeholder.com/150" alt="Community Work" className="w-40 h-40 mb-6 rounded-lg" />
-              <h2 className="text-3xl font-semibold text-gray-900 text-center">Community work</h2>
-              <p className="text-2xl text-gray-700 text-center mb-6">Create, update, and remove job postings with ease.</p>
-              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
-                Go to Job Listings
+            <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
+              <img src="img/gardiner.jpg" alt="Community Work" className="w-70 h-74 rounded-lg mb-6" />
+              <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
+                Community Work
               </Button>
+              <p className="text-2xl text-gray-700 text-center mt-6">Make an impact by offering your skills to local projects.</p>
             </div>
 
-            {/* View Applications */}
-            <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-              <img src="https://via.placeholder.com/150" alt="Consulting" className="w-40 h-40 mb-6 rounded-lg" />
-              <h2 className="text-3xl font-semibold text-gray-900 text-center">Consulting</h2>
-              <p className="text-2xl text-gray-700 text-center mb-6">Review and manage applications from potential candidates.</p>
-              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
-                View Applications
+            {/* Consulting */}
+            <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
+              <img src="img/office.jpg" alt="Consulting" className="w-70 h-74 rounded-lg mb-6" />
+              <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
+                Consulting
               </Button>
+              <p className="text-2xl text-gray-700 text-center mt-6">Use your expertise to guide businesses and professionals.</p>
             </div>
 
             {/* Remote work */}
-            <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-              <img src="https://via.placeholder.com/150" alt="Remote Work" className="w-40 h-40 mb-6 rounded-lg" />
-              <h2 className="text-3xl font-semibold text-gray-900 text-center">Remote Work</h2>
-              <p className="text-2xl text-gray-700 text-center mb-6">Update company details and business information.</p>
-              <Button color="gray" size="l" className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4">
-                Edit Profile
+            <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
+              <img src="img/remotework.jpg" alt="Remote Work" className="w-70 h-74 rounded-lg mb-6" />
+              <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
+                Remote Work
               </Button>
+              <p className="text-2xl text-gray-700 text-center mt-6">Enjoy flexible hours and work from anywhere.</p>
             </div>
           </div>
         </Card>
