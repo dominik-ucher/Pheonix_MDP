@@ -1,102 +1,122 @@
 import { db } from "../db.js";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import fs from "fs"
+import { Client } from '@elastic/elasticsearch';
 
-export const getNews = (req, res) => {
-  const q = "SELECT * FROM news ORDER BY date DESC";
+//Company job management 
 
-  db.query(q, [], (err, data) => {
-    if (err) return res.status(500).send(err);
+const esClient = new Client({
+  node: 'http://localhost:9200', // Elasticsearch server URL
+})
 
-    return res.status(200).json(data);
-  });
-};
 
-export const getNew = (req, res) => {
-  const q =
-  "SELECT news.id, `username`, `title`, `desc`, `img`, `date` FROM users JOIN news ON users.id = news.uid WHERE news.id= ?";
+export const postJob = (req, res) => {
+  const { companyId, title, location, start_date, employmentType, deadline, salary, description, requirements } = req.body;
 
-  db.query(q, [req.params.id], (err, data) => {
+  if (!companyId || !title || !location || !start_date || !employmentType || !deadline || !salary || !description || !requirements) {
+    return res.status(400).json("All fields are required.");
+  }
+
+  // Allowed employment types
+  const validEmploymentTypes = ["full-time", "part-time", "contract", "internship", "freelance"];
+
+  if (!validEmploymentTypes.includes(employmentType)) {
+    return res.status(400).json(`Invalid employment type. Allowed values: ${validEmploymentTypes.join(", ")}`);
+  }
+
+  // Validate date format (YYYY-MM-DD)
+  const isValidDate = (date) => !isNaN(Date.parse(date));
+  if (!isValidDate(start_date) || !isValidDate(deadline)) {
+    return res.status(400).json("Invalid date format. Use YYYY-MM-DD.");
+  }
+
+  // Check if company exists
+  const checkQuery = "SELECT * FROM companies WHERE id = ?";
+  db.query(checkQuery, [companyId], (err, data) => {
     if (err) return res.status(500).json(err);
+    if (data.length === 0) return res.status(404).json("Company not found.");
 
-    return res.status(200).json(data[0]);
-  });
-};
-
-export const addNews = (req, res) => {
-  const token = req.cookies.access_token;
-  if (!token) return res.status(401).json("Not authenticated!");
-
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
-    if (err) return res.status(403).json("Token is not valid!");
-
-    const q =
-      "INSERT INTO news(`title`, `desc`, `img`, `date`,`uid`) VALUES (?)";
-
-    const values = [
-      req.body.title,
-      req.body.desc,
-      req.body.img,
-      req.body.date,
-      userInfo.id,
-    ];
-
-    db.query(q, [values], (err, data) => {
+    // Insert job into jobs table
+    const insertQuery = "INSERT INTO jobs (company_id, title, description, location, salary, requirements, employment_type, start_date, application_deadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    db.query(insertQuery, [companyId, title, description, location, salary, requirements, employmentType, start_date, deadline], (err, result) => {
       if (err) return res.status(500).json(err);
-      const insertedId = data.insertId; // Get the ID of the newly inserted record
-      return res.json({ message: "News page has been created.", id: insertedId });
+
+      return res.status(200).json({
+        message: "Job posted successfully.",
+        jobId: result.insertId
+      });
     });
   });
 };
+export const initiateApplication = (req, res) => {
+  const { companyId, jobId, professionalId } = req.body;
 
-export const deleteNews = (req, res) => {
-  const token = req.cookies.access_token;
-  if (!token) return res.status(401).json("Not authenticated!");
+  if (!companyId || !jobId || !professionalId) {
+    return res.status(400).json("Company ID, Job ID, and Professional ID are required.");
+  }
 
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
-    if (err) return res.status(403).json("Token is not valid!");
+  // Check if the company exists
+  const companyQuery = "SELECT * FROM companies WHERE id = ?";
+  db.query(companyQuery, [companyId], (err, companyData) => {
+    if (err) return res.status(500).json(err);
+    if (companyData.length === 0) return res.status(404).json("Company not found.");
 
-    const nyhetId = req.params.id;
+    // Check if the job exists, belongs to the company, and retrieve its application deadline
+    const jobQuery = "SELECT application_deadline FROM jobs WHERE id = ? AND company_id = ?";
+    db.query(jobQuery, [jobId, companyId], (err, jobData) => {
+      if (err) return res.status(500).json(err);
+      if (jobData.length === 0) return res.status(404).json("Job not found or does not belong to this company.");
 
-    const getImageFilenameQuery = "SELECT img FROM nyheter WHERE id = ?";
-      db.query(getImageFilenameQuery, [nyhetId], (err, result) => {
+      // Get today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split("T")[0];
+
+      if (jobData[0].application_deadline < today) {
+        return res.status(400).json("Application deadline has passed.");
+      }
+
+      // Check if the professional exists
+      const professionalQuery = "SELECT * FROM professionals WHERE id = ?";
+      db.query(professionalQuery, [professionalId], (err, professionalData) => {
         if (err) return res.status(500).json(err);
-  
-        const imageFilename = result[0].img;
-  
-        // Delete the image file from storage
-        const imagePath = `/var/www/iltrond/client/upload/Nyheter/Nyheter_Bilder/${imageFilename}`;
-        fs.unlink(imagePath, (unlinkErr) => {
-          if (unlinkErr) console.error("Error deleting image:", unlinkErr);
-  
-          // Proceed to delete the sponsor record from the database
-          const deleteQuery = "DELETE FROM nyheter WHERE id = ?";
-          db.query(deleteQuery, [nyhetId], (deleteErr, data) => {
-            if (deleteErr) return res.status(403).json("You can delete only your nyhet!");
-  
-            return res.json("Nyhet have been deleted!");
+        if (professionalData.length === 0) return res.status(404).json("Professional not found.");
+
+        // Insert a new application
+        const insertQuery = "INSERT INTO applications (user_id, job_id, status) VALUES (?, ?, 'pending')";
+        db.query(insertQuery, [professionalId, jobId], (err, result) => {
+          if (err) return res.status(500).json(err);
+
+          return res.status(200).json({
+            message: "Application initiated successfully.",
+            applicationId: result.insertId
           });
         });
       });
+    });
   });
 };
 
-export const updateNews = (req, res) => {
-  const token = req.cookies.access_token;
-  if (!token) return res.status(401).json("Not authenticated!");
 
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
-    if (err) return res.status(403).json("Token is not valid!");
+export const updateApplicationStatus = (req, res) => {
+  const { applicationId } = req.params;
+  const { newStatus } = req.body;
 
-    const nyhetId = req.params.id;
-    const q =
-      "UPDATE news SET `title`=?,`desc`=?,`img`=? WHERE `id` = ?";
+  if (!applicationId || !newStatus) {
+    return res.status(400).json("Application ID and new status are required.");
+  }
 
-    const values = [req.body.title, req.body.desc, req.body.img];
+  // Allowed statuses
+  const validStatuses = ["pending", "rejected", "accepted"];
 
-    db.query(q, [...values, nyhetId], (err, data) => {
-      if (err) return res.status(500).json(err);
-      return res.json("News has been updated.");
-    });
+  if (!validStatuses.includes(newStatus)) {
+    return res.status(400).json("Invalid status. Allowed values: pending, rejected, accepted.");
+  }
+
+  // Update application status
+  const query = "UPDATE applications SET status = ? WHERE id = ?";
+  db.query(query, [newStatus, applicationId], (err, result) => {
+    if (err) return res.status(500).json(err);
+    if (result.affectedRows === 0) return res.status(404).json("Application not found.");
+
+    return res.status(200).json({ message: `Application status updated to ${newStatus}.` });
   });
 };
