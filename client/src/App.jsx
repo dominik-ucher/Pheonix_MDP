@@ -12,6 +12,7 @@ import Contact from "./pages/Contact/Contact";
 import Company_Appl_Dashboard from "./pages/Company_Appl_Dashboard/Company_Appl_Dashboard";
 import Company_Appl_Page from "./pages/Company_Appl_Page/Company_Appl_Page";
 import Company_Dashboard from "./pages/Company_Dashboard/Company_Dashboard";
+import Company_Profile from "./pages/Company_Profile/Company_Profile";
 import Login from "./pages/Login/Login";
 import LoginCompany from "./pages/Login/Login_Company";
 import Register from "./pages/Register/Register";
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path:"/company_dashboard",
         element:<Company_Dashboard/>,
+      },
+      {
+        path:"/company_profile",
+        element:<Company_Profile/>,
       },
       {
         path:"/user_appl_page",
