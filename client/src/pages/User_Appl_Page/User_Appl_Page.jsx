@@ -10,12 +10,11 @@ export default function UserApplication() {
     coverLetter: "",
     mobile: "",
   });
-  
-  const [isSubmitted, setIsSubmitted] = useState(false); // New state for submission status
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [errors, setErrors] = useState({}); // State for form validation errors
 
-  // Validation function
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
   const validateForm = () => {
     let valid = true;
     let errors = {};
@@ -29,7 +28,7 @@ export default function UserApplication() {
       valid = false;
     }
     if (!formData.mobile || formData.mobile.length < 10) {
-      errors.mobile = "Please enter a valid mobile number with countrycode";
+      errors.mobile = "Please enter a valid mobile number with country code";
       valid = false;
     }
     if (!formData.resume) {
@@ -56,10 +55,21 @@ export default function UserApplication() {
     setIsLoading(true);
     setTimeout(() => {
       console.log("Submitted Data:", formData);
-      setIsSubmitted(true); // Set submission status to true
+      setIsSubmitted(true);
       setIsLoading(false);
-      // Implement actual form submission logic here
-    }, 2000); // Simulate loading time for submission
+    }, 2000);
+  };
+
+  const handleGoBack = () => {
+    setIsSubmitted(false);
+    setFormData({
+      name: "",
+      email: "",
+      resume: null,
+      coverLetter: "",
+      mobile: "",
+    });
+    setErrors({});
   };
 
   return (
@@ -104,7 +114,7 @@ export default function UserApplication() {
 
                 {/* Mobile Input */}
                 <label htmlFor="mobile" className="block text-lg font-medium text-gray-700">
-                  Mobile Number (add +XX countrycode)
+                  Mobile Number (add +XX country code)
                 </label>
                 <TextInput
                   id="mobile"
@@ -154,6 +164,9 @@ export default function UserApplication() {
               <p className="text-xl text-gray-600 mb-8">
                 We have received your application and will get back to you soon.
               </p>
+              <Button color="gray" size="lg" className="w-full text-lg" onClick={handleGoBack}>
+                Go Back
+              </Button>
             </div>
           )}
         </Card>
