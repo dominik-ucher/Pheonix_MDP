@@ -1,13 +1,6 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Client } from '@elastic/elasticsearch';
-
-//Professionals apply to a job, Also retrieve the status
-
-const esClient = new Client({
-  node: 'http://localhost:9200', // Elasticsearch server URL
-})
 
 
 export const applyToJob = (req, res) => {
