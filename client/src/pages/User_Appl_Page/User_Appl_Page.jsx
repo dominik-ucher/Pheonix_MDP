@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, TextInput, Textarea } from "flowbite-react";
+import { Button, Card, TextInput, Textarea, Spinner } from "flowbite-react";
 import React, { useState } from "react";
 
 export default function UserApplication() {
@@ -8,9 +8,38 @@ export default function UserApplication() {
     email: "",
     resume: null,
     coverLetter: "",
+    mobile: "",
   });
   
   const [isSubmitted, setIsSubmitted] = useState(false); // New state for submission status
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [errors, setErrors] = useState({}); // State for form validation errors
+
+  // Validation function
+  const validateForm = () => {
+    let valid = true;
+    let errors = {};
+
+    if (!formData.name) {
+      errors.name = "Full name is required";
+      valid = false;
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "A valid email is required";
+      valid = false;
+    }
+    if (!formData.mobile || formData.mobile.length < 10) {
+      errors.mobile = "Please enter a valid mobile number with countrycode";
+      valid = false;
+    }
+    if (!formData.resume) {
+      errors.resume = "Resume upload is required";
+      valid = false;
+    }
+
+    setErrors(errors);
+    return valid;
+  };
 
   const handleChange = (e) => {
     const { id, value, files } = e.target;
@@ -22,9 +51,15 @@ export default function UserApplication() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
-    setIsSubmitted(true); // Set submission status to true
-    // Implement actual form submission logic here
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setTimeout(() => {
+      console.log("Submitted Data:", formData);
+      setIsSubmitted(true); // Set submission status to true
+      setIsLoading(false);
+      // Implement actual form submission logic here
+    }, 2000); // Simulate loading time for submission
   };
 
   return (
@@ -51,6 +86,7 @@ export default function UserApplication() {
                   onChange={handleChange}
                   required
                 />
+                {errors.name && <p className="text-red-600">{errors.name}</p>}
 
                 {/* Email Input */}
                 <label htmlFor="email" className="block text-lg font-medium text-gray-700">
@@ -64,10 +100,25 @@ export default function UserApplication() {
                   onChange={handleChange}
                   required
                 />
+                {errors.email && <p className="text-red-600">{errors.email}</p>}
+
+                {/* Mobile Input */}
+                <label htmlFor="mobile" className="block text-lg font-medium text-gray-700">
+                  Mobile Number (add +XX countrycode)
+                </label>
+                <TextInput
+                  id="mobile"
+                  type="number"
+                  placeholder="Mobile number"
+                  className="w-full p-3 border border-gray-300 rounded-lg"
+                  onChange={handleChange}
+                  required
+                />
+                {errors.mobile && <p className="text-red-600">{errors.mobile}</p>}
 
                 {/* Resume Upload */}
                 <label htmlFor="resume" className="block text-lg font-medium text-gray-700">
-                  Upload Resume
+                  Upload Resume (.pdf or .docx file)
                 </label>
                 <input
                   type="file"
@@ -77,6 +128,7 @@ export default function UserApplication() {
                   accept=".pdf,.doc,.docx"
                   required
                 />
+                {errors.resume && <p className="text-red-600">{errors.resume}</p>}
 
                 {/* Cover Letter */}
                 <label htmlFor="coverLetter" className="block text-lg font-medium text-gray-700">
@@ -92,7 +144,7 @@ export default function UserApplication() {
 
                 {/* Submit Button */}
                 <Button type="submit" color="yellow" size="lg" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
-                  Submit Application
+                  {isLoading ? <Spinner size="sm" /> : "Submit Application"}
                 </Button>
               </form>
             </>
