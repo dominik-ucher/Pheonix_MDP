@@ -57,7 +57,6 @@ app.delete('/api/delete_CV', async function (req, res) {
 
         // Delete the file
         await fs.promises.unlink(filePath);
-        console.log('File deleted successfully');
         res.status(200).json({ message: 'File deleted successfully' });
     } catch (err) {
         if (err.code === 'ENOENT') {
