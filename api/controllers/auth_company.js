@@ -2,40 +2,42 @@ import { db } from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-//compaby auth
+//company auth : REGISTER, LOGIN, LOGOUT
 
 export const register = (req, res) => {
-  //CHECK EXISTING USER
-  const q = "SELECT * FROM companies WHERE email = ? ";
+  const { email, username, password, company_name, vat_number, ateco_code, business_sector } = req.body;
 
-  db.query(q, [req.body.email], (err, data) => {
+  // Check for existing email, username, vat_number, or ateco_code
+  const q = "SELECT * FROM companies WHERE email = ? OR username = ? OR vat_number = ? OR ateco_code = ?";
+
+  db.query(q, [email, username, vat_number, ateco_code], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length) return res.status(409).json("User already exists!");
+    if (data.length) return res.status(409).json("Email, username, VAT number, or ATECO code already exists!");
 
-    //Hash the password and create a user
+    // Hash the password and create the company
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
+    const hash = bcrypt.hashSync(password, salt);
 
-    const q = "INSERT INTO companies(`email`, `password`, `company_name`, `vat_number`, `ateco_code`, `business_sector`) VALUES (?,?, ?, ?, ?,?)";
-    const values = [req.body.email, hash, req.body.company_name, req.body.vat_number,  req.body.ateco_code, req.body.business_sector];
+    const insertQuery = "INSERT INTO companies(`email`, `password`, `company_name`, `username`, `vat_number`, `ateco_code`, `business_sector`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const values = [email, hash, company_name, username, vat_number, ateco_code, business_sector];
 
-    db.query(q, [values], (err, data) => {
+    db.query(insertQuery, values, (err, result) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json("User has been created.");
+      return res.status(200).json("Company has been created.");
     });
   });
 };
 
 export const login = (req, res) => {
-  //CHECK USER
+  // CHECK USER
 
-  const q = "SELECT * FROM companies WHERE email = ?";
+  const q = "SELECT * FROM companies WHERE username = ?";
 
-  db.query(q, [req.body.email], (err, data) => {
+  db.query(q, [req.body.username], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0) return res.status(404).json("User not found!");
 
-    //Check password
+    // Check password
     const isPasswordCorrect = bcrypt.compareSync(
       req.body.password,
       data[0].password
