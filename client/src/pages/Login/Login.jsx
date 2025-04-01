@@ -9,7 +9,7 @@ import { Button, Label, Spinner, TextInput } from 'flowbite-react';
 const Login = () => {
   const axiosInstance = axios.create({baseURL: import.meta.env.VITE_REACT_APP_API_URL,});
   const [inputs, setInputs] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [err, setError] = useState(null);
@@ -51,28 +51,28 @@ const Login = () => {
     <div>
         <div className="mb-2 block">
           <Label
-            htmlFor="name1"
-            value="Username"
+            htmlFor="email"
+            value="Email"
           />
         </div>
         <TextInput
-          id="username"
-          placeholder="Username"
+          id="email"
+          placeholder="name@gmail.com"
           required
           type="text"
-          name="username"
+          name="email"
           onChange={handleChange}
         />
       </div>
       <div>
         <div className="mb-2 block">
           <Label
-            htmlFor="password1"
+            htmlFor="password"
             value="Password"
           />
         </div>
         <TextInput
-          id="password1"
+          id="password"
           required
           type="password"
           name="password"

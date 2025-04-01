@@ -27,7 +27,7 @@ const Register = () => {
     e.preventDefault();
     
     // Check if any of the input fields are empty
-    if (!inputs.email || !inputs.password || !inputs.company_name || !inputs.vat_number || !inputs.ateco_code || !inputs.business_sector) {
+    if (!inputs.email || !inputs.username || !inputs.password || !inputs.company_name || !inputs.vat_number || !inputs.ateco_code || !inputs.business_sector) {
       setError("Please fill in all fields.");
       return;
     }
@@ -41,9 +41,9 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
       {/* <img className="w-auto h-40 p-5" src={Logo} alt="" /> */}
-      <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-300 w-96">
+      <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-300 w-96 mt-12 mb-12">
         <div className='flex items-center justify-center'><img src={Logo} alt="" className='w-32 mr-4'/></div>
         <h2 className="flex justify-center items-center text-2xl font-bold mb-4">Register</h2>
         <form className="flex max-w-md flex-col gap-4">
@@ -64,6 +64,25 @@ const Register = () => {
               onChange={handleChange}
             />
           </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="text"
+                value="Username"
+              />
+            </div>
+            <TextInput
+              id="username"
+              placeholder=""
+              required
+              shadow
+              type="text"
+              name="username"
+              onChange={handleChange}
+            />
+          </div>
+
           <div>
             <div className="mb-2 block">
               <Label
@@ -80,10 +99,11 @@ const Register = () => {
               onChange={handleChange}
             />
           </div>
+
           <div>
             <div className="mb-2 block">
               <Label
-                htmlFor="company_name"
+                htmlFor="text"
                 value="Company Name"
               />
             </div>
@@ -96,6 +116,58 @@ const Register = () => {
               onChange={handleChange}
             />
           </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="text"
+                value="VAT Number"
+              />
+            </div>
+            <TextInput
+              id="vat_number"
+              required
+              shadow
+              type="text"
+              name="vat_number"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="text"
+                value="Ateco Code"
+              />
+            </div>
+            <TextInput
+              id="ateco_code"
+              required
+              shadow
+              type="text"
+              name="ateco_code"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label
+                htmlFor="text"
+                value="Business Sector"
+              />
+            </div>
+            <TextInput
+              id="business_sector"
+              required
+              shadow
+              type="text"
+              name="business_sector"
+              onChange={handleChange}
+            />
+          </div>
+
           <div className="flex items-center gap-2">
           </div>
           <Button type="submit" color="dark" onClick={handleSubmit}>

@@ -30,6 +30,7 @@ export const AuthContexProvider = ({ children }) => {
     });
     setCurrentUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("lastActivityTimestamp");
   };
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export const AuthContexProvider = ({ children }) => {
   }, [currentUser]);
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, login_company, logout }}>
       <AutoLogout />
       {children}
     </AuthContext.Provider>
