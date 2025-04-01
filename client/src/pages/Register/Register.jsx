@@ -41,15 +41,18 @@ const Register = () => {
   };
 
   const handleDeleteCV = async () => {
-    if (!cvFile) return;
+    if (!cvFile) {
+      setError("No CV file to delete.");
+      return;
+    }
 
     try {
-      await axiosInstance.delete("/api/delete_CV", { data: { filename: cvFile } });
+      await axiosInstance.delete("/api/delete_CV", { data: { filename: cvFile } }); // Ensure 'filename' matches the server's key
       setCvFile(null);
       setInputs((prev) => ({ ...prev, link_to_cv: "" }));
     } catch (err) {
       console.error("Delete failed:", err);
-      setError("Failed to delete CV");
+      setError(err.response?.data || "Failed to delete CV");
     }
   };
 
@@ -209,7 +212,7 @@ const Register = () => {
             ) : (
               <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
                 <a href={`/upload/CV/${cvFile}`} target="_blank" className="text-blue-500 underline">
-                  {cvFile}
+                  {cvFile.split('__')[1]}
                 </a>
                 <Button color="red" size="xs" onClick={handleDeleteCV}>Delete</Button>
               </div>
