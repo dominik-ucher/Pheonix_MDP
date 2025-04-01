@@ -30,6 +30,7 @@ export const AuthContexProvider = ({ children }) => {
     });
     setCurrentUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("lastActivityTimestamp");
   };
 
   useEffect(() => {
