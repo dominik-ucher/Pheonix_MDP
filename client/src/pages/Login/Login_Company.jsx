@@ -18,7 +18,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { login } = useContext(AuthContext);
+  const { login_company } = useContext(AuthContext);
 
 
   const handleChange = (e) => {
@@ -34,7 +34,7 @@ const Login = () => {
 
     e.preventDefault();
     try {
-      await login(inputs)
+      await login_company(inputs)
       navigate("/");
     } catch (err) {
       setError(err.response.data);
