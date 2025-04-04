@@ -1,103 +1,259 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Logo from '../../../img/logo.png';
 import axios from 'axios';
-import { FaVolumeUp, FaTrash } from 'react-icons/fa'; 
+import { Button, FileInput, Label, TextInput, Textarea } from 'flowbite-react';
+import { FaVolumeUp } from 'react-icons/fa';
+import useSpeechRecognition from '../../hooks/useSpeechRecognitionHook';
+import useTextToSpeech from '../../hooks/useTextToSpeechHook';
 
-// Import the custom speech recognition hook
-import useSpeechRecognition from '../../hooks/useSpeechRecognitionHook';  
+const Register = () => {
+  const axiosInstance = axios.create({ baseURL: import.meta.env.VITE_REACT_APP_API_URL });
+  const [currentStep, setCurrentStep] = useState(0);
+  const [confirmed, setConfirmed] = useState(false);
+  const [voiceInput, setVoiceInput] = useState('');
+  const formRef = useRef(null);
 
-export default function Speech_to_text() {
-    const axiosInstance = axios.create({ baseURL: import.meta.env.VITE_REACT_APP_API_URL });
+  // Speech hooks
+  const { 
+    text: recognitionText, 
+    isListening, 
+    startListening, 
+    stopListening, 
+    hasRecognitionSupport 
+  } = useSpeechRecognition();
+  
+  const { speak, stop: stopSpeaking, hasSpeechSupport } = useTextToSpeech('en-US');
 
-    // Destructure values and functions from the custom hook
-    const {
-        text, 
-        startListening, 
-        stopListening, 
-        isListening, 
-        hasRecognitionSupport, 
-    } = useSpeechRecognition();
+  // CV-focused form fields
+  const [inputs, setInputs] = useState({
+    first_name: '',
+    last_name: '',
+    profession: '',
+    skills: '',
+    experience: '',
+    education: '',
+    birthdate: '',       // Manual input only
+    email: '',          // Manual input only
+    password: '',       // Manual input only
+    phone_number: '',
+    address: '',
+    languages: '',
+    link_to_cv: ''
+  });
 
-    // State to handle manual text input
-    const [manualText, setManualText] = useState(text);
+  const [err, setError] = useState(null);
+  const navigate = useNavigate();
 
-    // Update manualText when speech recognition updates text
-    React.useEffect(() => {
-        setManualText(text);
-    }, [text]);
+  // Voice-enabled fields configuration
+  const voiceSteps = [
+    { field: 'first_name', question: 'What is your first name?' },
+    { field: 'last_name', question: 'What is your last name?' },
+    { field: 'profession', question: 'What is your current profession?' },
+    { field: 'skills', question: 'What are your key skills?' },
+    { field: 'experience', question: 'Briefly describe your work experience' },
+    { field: 'education', question: 'What is your education background?' },
+    { field: 'phone_number', question: 'What is your phone number?' },
+    { field: 'address', question: 'What is your address?' },
+    { field: 'languages', question: 'What languages do you speak?' }
+  ];
 
-    // Function to clear the text area
-    const clearText = () => {
-        setManualText('');
-    };
+  // Manual-only fields (must be filled manually)
+  const manualFields = [
+    { field: 'birthdate', label: 'Birthdate', type: 'date' },
+    { field: 'email', label: 'Email', type: 'email' },
+    { field: 'password', label: 'Password', type: 'password' }
+  ];
 
-    return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-            <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
-                {/* Title */}
-                <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-                    Speech to Text
-                </h1>
+  // Speak current question when step changes
+  useEffect(() => {
+    if (currentStep < voiceSteps.length && hasSpeechSupport) {
+      speakQuestion();
+      setVoiceInput('');
+      setConfirmed(false);
+      stopListening();
+    }
+  }, [currentStep, hasSpeechSupport]);
 
-                {/* Check if speech recognition is supported */}
-                {hasRecognitionSupport ? (
-                    <>
-                        {/* Buttons for starting and stopping speech recognition */}
-                        <div className="flex justify-center gap-4 mb-6">
-                            <button
-                                onClick={startListening}
-                                disabled={isListening}
-                                className={`flex items-center justify-center px-6 py-3 text-lg font-semibold text-white rounded-lg transition-colors ${
-                                    isListening ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-                                }`}
-                            >
-                                <FaVolumeUp className="mr-2" /> Start Speaking
-                            </button>
-                            <button
-                                onClick={stopListening}
-                                disabled={!isListening}
-                                className={`flex items-center justify-center px-6 py-3 text-lg font-semibold text-white rounded-lg transition-colors ${
-                                    !isListening ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'
-                                }`}
-                            >
-                                ⏹️ Stop Speaking
-                            </button>
-                        </div>
+  // Handle recognized speech
+  useEffect(() => {
+    if (recognitionText && currentStep < voiceSteps.length && !confirmed) {
+      setVoiceInput(recognitionText);
+    }
+  }, [recognitionText]);
 
-                        {/* Feedback message when listening */}
-                        {isListening && (
-                            <div className="text-center text-blue-600 text-lg mb-6">
-                                🎧 Listening... Speak now.
-                            </div>
-                        )}
+  // Handle voice input confirmation
+  useEffect(() => {
+    if (voiceInput && !confirmed && currentStep < voiceSteps.length) {
+      speak(`You said ${voiceInput}. Is this correct?`);
+    }
+  }, [voiceInput]);
 
-                        {/* Text area for displaying and editing recognized text */}
-                        <div className="relative">
-                            <textarea
-                                value={manualText}
-                                onChange={(e) => setManualText(e.target.value)}
-                                placeholder="Your speech will appear here..."
-                                className="w-full p-4 text-lg border border-gray-300 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                rows={6}
-                            />
-                            {/* Clear text button (trash can icon) */}
-                            {manualText && (
-                                <button
-                                    onClick={clearText}
-                                    className="absolute top-2 right-2 p-2 text-gray-500 hover:text-red-600 transition-colors"
-                                    title="Clear text"
-                                >
-                                    <FaTrash className="w-6 h-6" />
-                                </button>
-                            )}
-                        </div>
-                    </>
-                ) : (
-                    // Display a message if speech recognition is not supported
-                    <div className="text-center text-red-600 text-2xl font-semibold">
-                        ❌ Your browser does not support speech recognition.
-                    </div>
-                )}
-            </div>
+  // Function to speak the current question
+  const speakQuestion = () => {
+    if (currentStep < voiceSteps.length && hasSpeechSupport) {
+      speak(voiceSteps[currentStep].question);
+    }
+  };
+
+  const confirmField = () => {
+    setInputs(prev => ({ ...prev, [voiceSteps[currentStep].field]: voiceInput }));
+    setConfirmed(true);
+    speak("Thank you. Let's continue.");
+    setTimeout(() => {
+      if (currentStep < voiceSteps.length - 1) {
+        setCurrentStep(prevStep => prevStep + 1);
+      }
+    }, 1000);
+  };
+
+  const correctField = () => {
+    setVoiceInput('');
+    speak(`Please say your ${voiceSteps[currentStep].field} again.`);
+    startListening();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axiosInstance.post('/api/auth/register', inputs);
+      navigate('/login');
+    } catch (err) {
+      setError(err.response.data);
+    }
+  };
+
+  const handleChange = (e) => {
+    setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-white p-4">
+      <div className="w-full max-w-4xl bg-white rounded-lg border border-gray-200 shadow-lg p-8">
+        <div className='flex items-center justify-center'>
+          <img src={Logo} alt="Company Logo" className='w-32 mr-4'/>
         </div>
-    );
-}
+        <h2 className="flex justify-center items-center text-2xl font-bold mb-6">CV Registration</h2>
+
+        {/* Voice Registration Section */}
+        {hasRecognitionSupport && hasSpeechSupport && currentStep < voiceSteps.length && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-lg font-semibold">Voice Registration (Step {currentStep + 1} of {voiceSteps.length})</h3>
+              <button 
+                onClick={speakQuestion} // Uses the speakQuestion function
+                className="text-blue-600 hover:text-blue-800 p-2"
+                aria-label="Replay question"
+              >
+                <FaVolumeUp className="w-5 h-5" />
+              </button>
+            </div>
+            <div>
+              <p className="mb-2 text-gray-700">{voiceSteps[currentStep].question}</p>
+              {!confirmed && (
+                <>
+                  <div className="flex gap-2 mb-2">
+                    <Button 
+                      onClick={startListening} 
+                      disabled={isListening}
+                      className="flex items-center gap-2"
+                    >
+                      {isListening ? 'Listening...' : 'Speak Answer'}
+                    </Button>
+                    <Button 
+                      onClick={stopListening} 
+                      disabled={!isListening}
+                      color="gray"
+                    >
+                      Stop
+                    </Button>
+                  </div>
+                  {voiceInput && (
+                    <div className="mt-2">
+                      <p className="text-gray-700">You said: <strong>{voiceInput}</strong></p>
+                      <div className="flex gap-2 mt-2">
+                        <Button onClick={confirmField} color="success">
+                          Yes, that's correct
+                        </Button>
+                        <Button onClick={correctField} color="failure">
+                          No, try again
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* CV Registration Form - Note: All answers can be manually modified in their respective fields below */}
+        <div className="mb-4 text-sm text-gray-600">
+          <p>All voice-provided answers appear below and can be manually modified if needed.</p>
+        </div>
+
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-4" ref={formRef} onSubmit={handleSubmit}>
+          {/* Voice-enabled fields (answers can be manually edited) */}
+          {voiceSteps.map((step) => (
+            <div key={step.field} className={step.field === 'experience' || step.field === 'education' ? 'md:col-span-2' : ''}>
+              <Label htmlFor={step.field} value={step.field.replace('_', ' ')} />
+              {step.field === 'experience' || step.field === 'education' ? (
+                <Textarea
+                  id={step.field}
+                  name={step.field}
+                  value={inputs[step.field]}
+                  onChange={handleChange}
+                  rows={4}
+                  className="border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                />
+              ) : (
+                <TextInput
+                  id={step.field}
+                  name={step.field}
+                  value={inputs[step.field]}
+                  onChange={handleChange}
+                  className="border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                />
+              )}
+            </div>
+          ))}
+
+          {/* Manual-only fields (must be filled manually) */}
+          {manualFields.map((field) => (
+            <div key={field.field}>
+              <Label htmlFor={field.field} value={field.label} />
+              <TextInput
+                id={field.field}
+                type={field.type}
+                name={field.field}
+                value={inputs[field.field]}
+                onChange={handleChange}
+                required
+                className="border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          ))}
+
+          {/* CV File Upload */}
+          <div className="md:col-span-2">
+            <Label htmlFor="link_to_cv" value="Upload CV (PDF)" />
+            <FileInput 
+              id="link_to_cv"
+              name="link_to_cv"
+              accept=".pdf"
+              onChange={(e) => setInputs(prev => ({ ...prev, link_to_cv: e.target.files[0] }))}
+              required
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <Button type="submit" color="dark" className="w-full">Complete Registration</Button>
+            {err && <p className='bg-red-100 text-red-600 font-semibold text-center p-3 rounded-lg mt-4'>{err}</p>}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
