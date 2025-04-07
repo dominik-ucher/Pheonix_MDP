@@ -4,7 +4,7 @@ import { updateProfile, applyToJob, getApplicationStatus, withdrawApplication, a
 const router = express.Router()
 
 router.get("/:id", getUser);
-router.post("/edit_user_profile", updateProfile)
+router.post("/update_user_profile", updateProfile)
 router.post("/apply_to_job", applyToJob)
 router.post("/get_application_status", getApplicationStatus)
 router.post("/withdraw_application", withdrawApplication)

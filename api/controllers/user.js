@@ -33,24 +33,12 @@ export const getUser = (req, res) => {
 
 //1
 export const updateProfile = (req, res) => {
-  const { first_name, last_name, birthdate, email, address, phone_number, link_to_cv } = req.body;
-  const { professionalId } = req.params;
+  const { first_name, last_name, birthdate, email, address, phone_number, profile_picture, link_to_cv } = req.body;
+  const { professionalId } = req.params.user_id;
 
   // Validate input data
   if (!first_name || !last_name || !birthdate || !email || !address || !phone_number || !link_to_cv) {
     return res.status(400).json("All fields are required.");
-  }
-
-  // Validate date format (YYYY-MM-DD)
-  const isValidDate = (date) => !isNaN(Date.parse(date)) && /^\d{4}-\d{2}-\d{2}$/.test(date);
-  if (!isValidDate(birthdate)) {
-    return res.status(400).json("Invalid birthdate format. Use YYYY-MM-DD.");
-  }
-
-  // Validate email format
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json("Invalid email format.");
   }
 
   // Check if email already exists for another user
@@ -60,8 +48,8 @@ export const updateProfile = (req, res) => {
     if (data.length) return res.status(409).json("Email is already taken by another user.");
 
     // Update professional details in the table
-    const updateQuery = "UPDATE professionals SET first_name = ?, last_name = ?, birthdate = ?, email = ?, address = ?, phone_number = ?, link_to_cv = ? WHERE id = ?";
-    const values = [first_name, last_name, birthdate, email, address, phone_number, link_to_cv, professionalId];
+    const updateQuery = "UPDATE professionals SET first_name = ?, last_name = ?, birthdate = ?, email = ?, address = ?, phone_number = ?, link_to_cv = ?, profile_picture = ? WHERE id = ?";
+    const values = [first_name, last_name, birthdate, email, address, phone_number, link_to_cv, profile_picture, professionalId];
 
     db.query(updateQuery, values, (err, result) => {
       if (err) return res.status(500).json(err);

@@ -1,39 +1,143 @@
-import React, { useState } from "react";
+"use client";
+import { AuthContext } from "../../context/authContext";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import axios from "axios";
+import { Button, FileInput, Label, TextInput } from "flowbite-react";
 
 export default function UserProfile() {
+  const axiosInstance = axios.create({baseURL: import.meta.env.VITE_REACT_APP_API_URL,});
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(true);
-  const [user, setUser] = useState({
+  const { currentUser } = useContext(AuthContext);
+
+  const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     birthdate: "",
     email: "",
     address: "",
     phone_number: "",
-    profile_picture: "/img/default-avatar.png", // Default profile picture
+    profile_picture: "",
     link_to_CV: "",
   });
 
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
+  const [logoFile, setLogoFile] = useState(null);
+  const [cvFile, setCvFile] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file); // Generate preview URL for the image
-      setUser({ ...user, profile_picture: imageUrl });
-    }
-  };
+    useEffect(() => {
+      if (!currentUser || !currentUser.user_id) {
+        navigate("/unauthorized_401");
+        return;
+      }
+  
+      // Fetch company data from the backend
+      const fetchUserData = async () => {
+        try {
+          const res = await axiosInstance.get(`/api/user/${currentUser.user_id}`);
+          setFormData(res.data);
+          setLogoFile(res.data.logo);
+        } catch (err) {
+          console.error("Failed to fetch user data:", err);
+          setError("Failed to load user data.");
+        }
+      };
+  
+      fetchUserData();
+    }, [currentUser, navigate]);
 
-  const handleCVUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileUrl = URL.createObjectURL(file); // Create a URL for the uploaded file
-      setUser({ ...user, link_to_CV: fileUrl });
-    }
-  };
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+  
+      const uploadData = new FormData();
+      uploadData.append("file", file);
+  
+      try {
+        const res = await axiosInstance.post("/api/upload_profile_picture", uploadData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setLogoFile(res.data);
+        setFormData((prev) => ({ ...prev, logo: res.data }));
+      } catch (err) {
+        console.error("Upload failed:", err);
+        setError("Failed to upload logo.");
+      }
+    };
+
+    const handleDeleteLogo = async () => {
+      if (!logoFile) {
+        setError("No logo file to delete.");
+        return;
+      }
+  
+      try {
+        await axiosInstance.delete("/api/delete_profile_picture", {
+          data: { filename: logoFile },
+        });
+        setLogoFile(null);
+        setFormData((prev) => ({ ...prev, logo: "" }));
+      } catch (err) {
+        console.error("Delete failed:", err);
+        setError("Failed to delete logo.");
+      }
+    };
+
+    const handleUpdate = async () => {
+      try {
+        const payload = { ...formData, companyId: currentUser.user_id }; // Ensure companyId is included
+        await axiosInstance.put("/api/user/update_user_profile", payload, {
+          headers: { "Content-Type": "application/json" },
+        });
+        alert("Profile updated successfully!");
+      } catch (err) {
+        console.error("Update failed:", err);
+        setError("Failed to update profile.");
+      }
+    };
+
+    const handleCVFileChange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+  
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      try {
+        const res = await axiosInstance.post("/api/upload_CV", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setCvFile(res.data);
+        setInputs((prev) => ({ ...prev, link_to_cv: res.data }));
+      } catch (err) {
+        console.error("Upload failed:", err);
+        setError("Failed to upload CV");
+      }
+    };
+
+    const handleDeleteCV = async () => {
+      if (!cvFile) {
+        setError("No CV file to delete.");
+        return;
+      }
+  
+      try {
+        await axiosInstance.delete("/api/delete_CV", { data: { filename: cvFile } }); // Ensure 'filename' matches the server's key
+        setCvFile(null);
+        setInputs((prev) => ({ ...prev, link_to_cv: "" }));
+      } catch (err) {
+        console.error("Delete failed:", err);
+        setError(err.response?.data || "Failed to delete CV");
+      }
+    };
+
+    
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
@@ -42,129 +146,121 @@ export default function UserProfile() {
         <p className="text-gray-600">Manage your personal details below.</p>
 
         <div className="relative mt-6">
-          <img
-            src={user.profile_picture}
-            alt="Profile"
-            className="w-40 h-40 mx-auto mb-4 border-4 border-orange-500 rounded-full object-cover"
-          />
-          {isEditing && (
-            <label className="cursor-pointer text-orange-600 font-semibold hover:text-orange-700">
-              Change Profile Picture
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleProfilePictureChange}
-              />
-            </label>
+          {!logoFile ? (
+            <CgProfile className="w-40 h-40 mx-auto mb-4 border-4 border-orange-500 rounded-full object-cover" />
+          ) : (
+            <img
+              src={logoFile}
+              alt="Logo"
+              className="w-40 h-40 mx-auto mb-4 border-4 border-orange-500 rounded-full object-cover"
+            />
+          )}
+          {!logoFile ? (
+            <FileInput id="logo" onChange={handleFileChange} />
+          ) : (
+            <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
+              <a
+                href={`/upload/Company_Logo/${logoFile}`}
+                target="_blank"
+                className="text-blue-500 underline"
+              >
+                {logoFile.split("__")[1]}
+              </a>
+              <Button color="red" size="xs" onClick={handleDeleteLogo}>
+                Delete
+              </Button>
+            </div>
           )}
         </div>
 
-        {isEditing ? (
-          <div className="space-y-3 mt-4">
-            <label className="block text-left">First Name</label>
-            <input
-              type="text"
-              name="first_name"
-              value={user.first_name}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your first name"
-            />
+        <div>
+          <label className="block text-gray-700 font-semibold mt-6">First Name</label>
+          <TextInput
+          type="text"
+          name="first_name"
+          placeholder="Enter First Name"
+          value={formData.first_name}
+          onChange={handleInputChange}
+          />
+        </div>
 
-            <label className="block text-left">Last Name</label>
-            <input
-              type="text"
-              name="last_name"
-              value={user.last_name}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your last name"
-            />
+        <div>
+          <label className="block text-gray-700 font-semibold mt-6">Last Name</label>
+          <TextInput
+          type="text"
+          name="last_name"
+          placeholder="Enter Last Name"
+          value={formData.last_name}
+          onChange={handleInputChange}
+          />
+        </div>
 
-            <label className="block text-left">Birthdate</label>
-            <input
-              type="date"
-              name="birthdate"
-              value={user.birthdate}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-            />
+        <div>
+          <label className="block text-gray-700 font-semibold mt-6">Last Name</label>
+          <TextInput
+          type="text"
+          name="birthdate"
+          placeholder="Enter Birth Date"
+          value={formData.birthdate}
+          onChange={handleInputChange}
+          />
+        </div>
 
-            <label className="block text-left">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your email"
-            />
+        <div>
+          <label className="block text-gray-700 font-semibold mt-6">E-mail</label>
+          <TextInput
+          type="text"
+          name="email"
+          placeholder="Enter Email"
+          value={formData.email}
+          onChange={handleInputChange}
+          />
+        </div>
 
-            <label className="block text-left">Address</label>
-            <input
-              type="text"
-              name="address"
-              value={user.address}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your address"
-            />
+        <div>
+          <label className="block text-gray-700 font-semibold mt-6">Address</label>
+          <TextInput
+          type="text"
+          name="address"
+          placeholder="Enter Address"
+          value={formData.address}
+          onChange={handleInputChange}
+          />
+        </div>
 
-            <label className="block text-left">Phone Number</label>
-            <input
-              type="text"
-              name="phone_number"
-              value={user.phone_number}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your phone number"
-            />
+        <div>
+          <label className="block text-gray-700 font-semibold mt-6">Phone Number</label>
+          <TextInput
+          type="text"
+          name="phone_number"
+          placeholder="Enter Phone Number"
+          value={formData.phone_number}
+          onChange={handleInputChange}
+          />
+        </div>
 
-            <label className="block text-left">Upload CV</label>
-            <label className="cursor-pointer text-orange-600 font-semibold hover:text-orange-700">
-              Select a file
-              <input
-                type="file"
-                accept=".pdf"
-                className="hidden"
-                onChange={handleCVUpload}
-              />
-            </label>
-            {user.link_to_CV && (
-              <p className="text-sm mt-1 text-gray-600">
-                Uploaded CV: <a href={user.link_to_CV} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">View CV</a>
-              </p>
-            )}
+        <div>
+          <Label className="mt-6" htmlFor="cv" value="CV Upload" />
+          {!cvFile ? (
+          <FileInput id="cv" onChange={handleCVFileChange} />
+          ) : (
+          <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
+          <a href={`/upload/CV/${cvFile}`} target="_blank" className="text-blue-500 underline">
+          {cvFile.split('__')[1]}
+          </a>
+          <Button color="red" size="xs" onClick={handleDeleteCV}>Delete</Button>
           </div>
-        ) : (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">{`${user.first_name || "N/A"} ${user.last_name || ""}`}</h2>
-            <p className="text-gray-600">Email: {user.email || "No email provided"}</p>
-            <p className="text-gray-600">Birthdate: {user.birthdate || "No birthdate provided"}</p>
-            <p className="text-gray-600">Address: {user.address || "No address provided"}</p>
-            <p className="text-gray-600">Phone Number: {user.phone_number || "No phone number provided"}</p>
-            {user.link_to_CV && (
-              <p className="text-gray-600">
-                <a
-                  href={user.link_to_CV}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  View CV
-                </a>
-              </p>
-            )}
-          </div>
-        )}
+          )}
+        </div>
+        
 
-        <button
-          className="mt-4 px-4 py-2 bg-orange-500 text-white font-semibold rounded-md shadow-md hover:bg-orange-600 w-full text-lg font-bold"
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? "Save Changes" : "Edit Profile"}
-        </button>
+        <div className="mt-6 flex justify-center gap-4">
+          <Button color="blue" size="lg" onClick={handleUpdate}>
+            Update
+          </Button>
+        </div>
+
+        
       </div>
     </div>
   );
