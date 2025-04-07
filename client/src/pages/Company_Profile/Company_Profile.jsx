@@ -20,27 +20,42 @@ export default function Company_Profile() {
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
 
-  const [formData, setFormData] = React.useState({
-    companyId: currentUser?.id || "",
-    company_name: currentUser?.company_name || "",
-    username: currentUser?.username || "",
-    email: currentUser?.email || "",
-    vat_number: currentUser?.vat_number || "",
-    address: currentUser?.address || "",
-    ateco_code: currentUser?.ateco_code || "",
-    business_sector: currentUser?.business_sector || "",
-    logo: currentUser?.logo || "",
-    description: currentUser?.description || "",
-    website_link: currentUser?.website_link || "",
+  const [formData, setFormData] = useState({
+    companyId: "",
+    company_name: "",
+    username: "",
+    email: "",
+    vat_number: "",
+    address: "",
+    ateco_code: "",
+    business_sector: "",
+    logo: "",
+    description: "",
+    website_link: "",
   });
 
   const [logoFile, setLogoFile] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!currentUser || !currentUser.company_name) {
+    if (!currentUser || !currentUser.id) {
       navigate("/unauthorized_401");
+      return;
     }
+
+    // Fetch company data from the backend
+    const fetchCompanyData = async () => {
+      try {
+        const res = await axiosInstance.get(`/api/company/${currentUser.id}`);
+        setFormData(res.data);
+        setLogoFile(res.data.logo);
+      } catch (err) {
+        console.error("Failed to fetch company data:", err);
+        setError("Failed to load company data.");
+      }
+    };
+
+    fetchCompanyData();
   }, [currentUser, navigate]);
 
   const handleInputChange = (e) => {
@@ -87,7 +102,10 @@ export default function Company_Profile() {
 
   const handleUpdate = async () => {
     try {
-      await axiosInstance.put("/api/company/update_company_profile", formData);
+      const payload = { ...formData, companyId: currentUser.id }; // Ensure companyId is included
+      await axiosInstance.put("/api/company/update_company_profile", payload, {
+        headers: { "Content-Type": "application/json" },
+      });
       alert("Profile updated successfully!");
     } catch (err) {
       console.error("Update failed:", err);

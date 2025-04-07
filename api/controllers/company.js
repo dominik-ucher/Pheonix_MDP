@@ -9,7 +9,6 @@ import jwt from "jsonwebtoken";
 // (5) INITIATE APPLICATION - SEND REQUEST TO PROFESSIONAL (INVITE HIM TO APPLY) STATUS SET TO REQUESTED
 // (6)  UPDATE APPLICATION STATUS - FROM IN PROGRESS TO REJECTED/OFFER
 
-
 // POSSIBLE APPLICATION STATUS "REQUESTED" , "IN PROGRESS" , "WITHDRAWN" ,"OFFER", "REJECTED", "ACCEPTED"
 //REQUESTED - COMPANY SENT AN INVITE
 //WITHDRAWN - THE PROFFESIONAL REFUSES AT ANY POINT
@@ -18,7 +17,7 @@ import jwt from "jsonwebtoken";
 
 export const getCompany = (req, res) => {
   const q =
-  "SELECT companies.id, companies.company_name, companies.username, companies.email, companies.vat_number, companies.ateco_code, companies.business_sector, companies.logo, companies.address, companies.description, companies.website_link FROM companies WHERE id = ?";
+    "SELECT companies.id, companies.company_name, companies.username, companies.email, companies.vat_number, companies.ateco_code, companies.business_sector, companies.logo, companies.address, companies.description, companies.website_link FROM companies WHERE id = ?";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -29,11 +28,23 @@ export const getCompany = (req, res) => {
 
 //1
 export const editCompanyProfile = (req, res) => {
-  const { companyId, company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link } = req.body;
+  const {
+    companyId,
+    company_name,
+    username,
+    email,
+    vat_number,
+    ateco_code,
+    business_sector,
+    logo,
+    address,
+    description,
+    website_link,
+  } = req.body;
 
-  // Ensure that at least one field to update is provided
-  if (!companyId || !company_name || !username || !email || !vat_number || !ateco_code) {
-    return res.status(400).json("All fields (name, username, email, vat_number, ateco_code) are required.");
+  // Ensure that the companyId is provided
+  if (!companyId) {
+    return res.status(400).json("Company ID is required.");
   }
 
   // Check if the company exists
@@ -48,14 +59,31 @@ export const editCompanyProfile = (req, res) => {
       SET company_name = ?, username = ?, email = ?, vat_number = ?, ateco_code = ?, business_sector = ?, logo = ?, address = ?, description = ?, website_link = ?
       WHERE id = ?
     `;
-    db.query(updateQuery, [company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link, companyId ], (err, result) => {
-      if (err) return res.status(500).json(err);
-      if (result.affectedRows === 0) return res.status(404).json("No changes made or company not found.");
+    db.query(
+      updateQuery,
+      [
+        company_name,
+        username,
+        email,
+        vat_number,
+        ateco_code,
+        business_sector,
+        logo,
+        address,
+        description,
+        website_link,
+        companyId,
+      ],
+      (err, result) => {
+        if (err) return res.status(500).json(err);
+        if (result.affectedRows === 0)
+          return res.status(404).json("No changes made or company not found.");
 
-      return res.status(200).json({
-        message: "Company profile updated successfully."
-      });
-    });
+        return res.status(200).json({
+          message: "Company profile updated successfully.",
+        });
+      }
+    );
   });
 };
 
@@ -169,7 +197,6 @@ export const deleteJob = (req, res) => {
     });
   });
 };
-
 
 //5
 export const initiateApplication = (req, res) => {
