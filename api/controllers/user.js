@@ -22,7 +22,7 @@ import jwt from "jsonwebtoken";
 
 export const getUser = (req, res) => {
   const q =
-    "SELECT professionals.user_id, professionals.first_name, professionals.last_name, professionals.birthdate, professionals.email, professionals.address, professionals.phone_number, professionals.link_to_CV FROM professionals WHERE user_id = ?";
+    "SELECT professionals.user_id, professionals.first_name, professionals.last_name, professionals.birthdate, professionals.email, professionals.address, professionals.phone_number, professionals.link_to_CV, professionals.profile_picture FROM professionals WHERE user_id = ?";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);

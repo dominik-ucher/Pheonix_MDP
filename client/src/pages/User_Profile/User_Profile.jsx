@@ -50,6 +50,7 @@ export default function UserProfile() {
             link_to_cv: userData.link_to_CV || "",
           });
           setCvFile(userData.link_to_CV || null);
+          setLogoFile(userData.profile_picture || null);
         } catch (err) {
           console.error("Failed to fetch user data:", err);
           setError("Failed to load user data.");
