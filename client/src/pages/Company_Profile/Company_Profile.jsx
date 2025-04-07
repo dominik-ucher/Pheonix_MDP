@@ -14,9 +14,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Company_Profile() {
-  const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_REACT_APP_API_URL,
-  });
+  const axiosInstance = axios.create({baseURL: import.meta.env.VITE_REACT_APP_API_URL,});
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
 

@@ -89,28 +89,63 @@ export const editCompanyProfile = (req, res) => {
 
 //2
 export const postJob = (req, res) => {
-  const { company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3 } = req.body;
+  const {
+    company_id,
+    title,
+    location,
+    start_date,
+    employment_type,
+    application_deadline,
+    job_description,
+    question1,
+    question2,
+    question3,
+  } = req.body;
 
-  if (!company_id || !title || !location || !start_date || !employment_type || !application_deadline || !description) {
-    return res.status(400).json("All fields are required.");
+  if (!company_id || !title || !location || !start_date || !employment_type || !application_deadline || !job_description) {
+    return res.status(400).json({ error: "All required fields must be filled." });
   }
 
-  // Check if company exists
   const checkQuery = "SELECT * FROM companies WHERE id = ?";
   db.query(checkQuery, [company_id], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json("Company not found.");
+    if (err) {
+      console.error(`Database query error (Check Company): ${err.message}`);
+      return res.status(500).json({ error: "Database error while checking company." });
+    }
 
-    // Insert job into jobs table
-    const insertQuery = "INSERT INTO jobs (company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    db.query(insertQuery, [company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3], (err, result) => {
-      if (err) return res.status(500).json(err);
+    if (data.length === 0) {
+      return res.status(404).json({ error: "Company not found." });
+    }
 
-      return res.status(200).json({
-        message: "Job posted successfully.",
-        jobId: result.insertId
-      });
-    });
+    const insertQuery =
+      "INSERT INTO jobs (company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    db.query(
+      insertQuery,
+      [
+        company_id,
+        title,
+        location,
+        start_date,
+        employment_type,
+        application_deadline,
+        job_description,
+        question1 || null,
+        question2 || null,
+        question3 || null,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error(`Database query error (Insert Job): ${err.message}`);
+          return res.status(500).json({ error: "Database error while inserting job." });
+        }
+
+        res.status(200).json({
+          message: "Job posted successfully.",
+          jobId: result.insertId,
+        });
+      }
+    );
   });
 };
 
