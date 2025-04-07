@@ -36,8 +36,18 @@ export default function UserProfile() {
       const fetchUserData = async () => {
         try {
           const res = await axiosInstance.get(`/api/user/${currentUser.user_id}`);
-          setFormData(res.data);
-          setLogoFile(res.data.logo);
+          const userData = res.data || {};
+          setFormData({
+            first_name: userData.first_name || "",
+            last_name: userData.last_name || "",
+            birthdate: userData.birthdate || "",
+            email: userData.email || "",
+            address: userData.address || "",
+            phone_number: userData.phone_number || "",
+            profile_picture: userData.profile_picture || "",
+            link_to_CV: userData.link_to_CV || "",
+          });
+          setCvFile(userData.link_to_CV || null);
         } catch (err) {
           console.error("Failed to fetch user data:", err);
           setError("Failed to load user data.");
@@ -179,7 +189,7 @@ export default function UserProfile() {
           type="text"
           name="first_name"
           placeholder="Enter First Name"
-          value={formData.first_name}
+          value={formData.first_name || ""}
           onChange={handleInputChange}
           />
         </div>
@@ -190,7 +200,7 @@ export default function UserProfile() {
           type="text"
           name="last_name"
           placeholder="Enter Last Name"
-          value={formData.last_name}
+          value={formData.last_name || ""}
           onChange={handleInputChange}
           />
         </div>
@@ -201,7 +211,7 @@ export default function UserProfile() {
           type="text"
           name="birthdate"
           placeholder="Enter Birth Date"
-          value={formData.birthdate}
+          value={formData.birthdate || ""}
           onChange={handleInputChange}
           />
         </div>
@@ -212,7 +222,7 @@ export default function UserProfile() {
           type="text"
           name="email"
           placeholder="Enter Email"
-          value={formData.email}
+          value={formData.email || ""}
           onChange={handleInputChange}
           />
         </div>
@@ -223,7 +233,7 @@ export default function UserProfile() {
           type="text"
           name="address"
           placeholder="Enter Address"
-          value={formData.address}
+          value={formData.address || ""}
           onChange={handleInputChange}
           />
         </div>
@@ -234,7 +244,7 @@ export default function UserProfile() {
           type="text"
           name="phone_number"
           placeholder="Enter Phone Number"
-          value={formData.phone_number}
+          value={formData.phone_number || ""}
           onChange={handleInputChange}
           />
         </div>

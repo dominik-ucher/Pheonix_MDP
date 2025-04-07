@@ -22,7 +22,7 @@ import jwt from "jsonwebtoken";
 
 export const getUser = (req, res) => {
   const q =
-    "SELECT professionals.id, professionals.first_name, professionals.last_name, professionals.birthdate, professionals.email, professionals.address, professionals.phone_number, professionals.link_to_CV FROM professionals WHERE id = ?";
+    "SELECT professionals.user_id, professionals.first_name, professionals.last_name, professionals.birthdate, professionals.email, professionals.address, professionals.phone_number, professionals.link_to_CV FROM professionals WHERE user_id = ?";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -34,7 +34,7 @@ export const getUser = (req, res) => {
 //1
 export const updateProfile = (req, res) => {
   const { first_name, last_name, birthdate, email, address, phone_number, profile_picture, link_to_cv } = req.body;
-  const { professionalId } = req.params.user_id;
+  const { professionalId } = req.params.id;
 
   // Validate input data
   if (!first_name || !last_name || !birthdate || !email || !address || !phone_number || !link_to_cv) {
@@ -42,13 +42,13 @@ export const updateProfile = (req, res) => {
   }
 
   // Check if email already exists for another user
-  const checkQuery = "SELECT * FROM professionals WHERE email = ? AND id != ?";
+  const checkQuery = "SELECT * FROM professionals WHERE email = ? AND user_id != ?";
   db.query(checkQuery, [email, professionalId], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length) return res.status(409).json("Email is already taken by another user.");
 
     // Update professional details in the table
-    const updateQuery = "UPDATE professionals SET first_name = ?, last_name = ?, birthdate = ?, email = ?, address = ?, phone_number = ?, link_to_cv = ?, profile_picture = ? WHERE id = ?";
+    const updateQuery = "UPDATE professionals SET first_name = ?, last_name = ?, birthdate = ?, email = ?, address = ?, phone_number = ?, link_to_cv = ?, profile_picture = ? WHERE user_id = ?";
     const values = [first_name, last_name, birthdate, email, address, phone_number, link_to_cv, profile_picture, professionalId];
 
     db.query(updateQuery, values, (err, result) => {
