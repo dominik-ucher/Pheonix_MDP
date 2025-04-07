@@ -18,17 +18,11 @@ import jwt from "jsonwebtoken";
 
 //1
 export const editCompanyProfile = (req, res) => {
-  const { companyId, name, description, location, website, contact_email } = req.body;
+  const { companyId, company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link } = req.body;
 
   // Ensure that at least one field to update is provided
-  if (!companyId || !name || !description || !location || !website || !contact_email) {
-    return res.status(400).json("All fields (name, description, location, website, contact_email) are required.");
-  }
-
-  // Validate email format
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (!emailRegex.test(contact_email)) {
-    return res.status(400).json("Invalid email format.");
+  if (!companyId || !company_name || !username || !email || !vat_number || !ateco_code) {
+    return res.status(400).json("All fields (name, username, email, vat_number, ateco_code) are required.");
   }
 
   // Check if the company exists
