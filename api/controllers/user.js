@@ -20,6 +20,17 @@ import jwt from "jsonwebtoken";
 //REJECTED/OFFER - THE COMPANY CHANGES STATUS WHEN THE APPLICATION IS IN PROGRESS
 //ACCEPTED - PROFESSIONAL ACCEPTS OFFER
 
+export const getUser = (req, res) => {
+  const q =
+    "SELECT professionals.id, professionals.first_name, professionals.last_name, professionals.birthdate, professionals.email, professionals.address, professionals.phone_number, professionals.link_to_CV FROM professionals WHERE id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 //1
 export const updateProfile = (req, res) => {
   const { first_name, last_name, birthdate, email, address, phone_number, link_to_cv } = req.body;

@@ -1,8 +1,9 @@
 import express from 'express'
-import { updateProfile, applyToJob, getApplicationStatus, withdrawApplication, acceptInvite, acceptJobOffer } from '../controllers/user.js'
+import { updateProfile, applyToJob, getApplicationStatus, withdrawApplication, acceptInvite, acceptJobOffer, getUser } from '../controllers/user.js'
 
 const router = express.Router()
 
+router.get("/:id", getUser);
 router.post("/edit_user_profile", updateProfile)
 router.post("/apply_to_job", applyToJob)
 router.post("/get_application_status", getApplicationStatus)
