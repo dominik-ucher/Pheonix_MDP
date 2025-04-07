@@ -1,11 +1,19 @@
 "use client";
+import { AuthContext } from '../../context/authContext'
 import { Button, Card, TextInput, Select, Textarea, FileInput } from "flowbite-react";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 
 export default function Company_Profile() {
-  // Initialize navigation function
   const navigate = useNavigate();
+  // Need to be logged in and logged in as a company to access this page
+  const { currentUser } = useContext(AuthContext);
+  useEffect(()=>{
+    if (!currentUser || !currentUser.company_name){
+        navigate('/unauthorized_401');
+    }
+}, [currentUser, navigate]);
+  
 
   // Function to handle back to dashboard navigation
   const handleBackToDashboard = () => {
