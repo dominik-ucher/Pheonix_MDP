@@ -7,7 +7,7 @@ import { HiTrash } from "react-icons/hi2";
 import { AuthContext } from "../../context/authContext";
 
 export default function Company_Appl_Dashboard() {
-  const axiosInstance = axios.create({baseURL: import.meta.env.VITE_REACT_APP_API_URL,});
+  const axiosInstance = axios.create({ baseURL: import.meta.env.VITE_REACT_APP_API_URL });
   const [job, setJob] = useState({
     title: "",
     location: "",
@@ -22,11 +22,13 @@ export default function Company_Appl_Dashboard() {
 
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
+
   useEffect(() => {
-      if (!currentUser || !currentUser.id) {
-        navigate("/unauthorized_401");
-        return;
-      }});
+    if (!currentUser || !currentUser.id) {
+      navigate("/unauthorized_401");
+      return;
+    }
+  }, [currentUser, navigate]);
 
   const handleChange = (e) => {
     setJob({ ...job, [e.target.name]: e.target.value });
@@ -34,16 +36,18 @@ export default function Company_Appl_Dashboard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      console.log(job)
-      const response = await axios.post("/api/company/create_job", job);
+      const response = await axiosInstance.post("/api/company/create_job", {
+        ...job,
+        company_id: currentUser.id, // Dynamically include currentUser.id
+      });
       console.log("Job Posted:", response.data);
+      navigate("/company_appl_dashboard");
     } catch (error) {
       console.error("Error posting the job:", error.response?.data || error.message);
     }
   };
-  
 
   const handleBackToDashboard = () => {
     navigate("/company_dashboard");
@@ -164,67 +168,28 @@ export default function Company_Appl_Dashboard() {
           </div>
 
           {/* Optional questions */}
-                    {/* Optional questions with clear buttons */}
-                    <div className="relative">
-            <Label htmlFor="question1" value="Optional Question 1" />
-            <Textarea 
-              id="question1" 
-              name="question1" 
-              rows={2} 
-              value={job.question1} 
-              onChange={handleChange} 
-            />
-            {job.question1 && (
-              <button
-                type="button"
-                onClick={() => clearField("question1")}
-                className="absolute right-2 top-9 text-gray-500 hover:text-gray-700"
-              >
-                <HiTrash className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-          
-          <div className="relative">
-            <Label htmlFor="question2" value="Optional Question 2" />
-            <Textarea 
-              id="question2" 
-              name="question2" 
-              rows={2} 
-              value={job.question2} 
-              onChange={handleChange} 
-            />
-            {job.question2 && (
-              <button
-                type="button"
-                onClick={() => clearField("question2")}
-                className="absolute right-2 top-9 text-gray-500 hover:text-gray-700"
-              >
-                <HiTrash className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-          
-          <div className="relative">
-            <Label htmlFor="question3" value="Optional Question 3" />
-            <Textarea 
-              id="question3" 
-              name="question3" 
-              rows={2} 
-              value={job.question3} 
-              onChange={handleChange} 
-            />
-            {job.question3 && (
-              <button
-                type="button"
-                onClick={() => clearField("question3")}
-                className="absolute right-2 top-9 text-gray-500 hover:text-gray-700"
-              >
-                <HiTrash className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-        
+          {["question1", "question2", "question3"].map((question, index) => (
+            <div key={index} className="relative">
+              <Label htmlFor={question} value={`Optional Question ${index + 1}`} />
+              <Textarea
+                id={question}
+                name={question}
+                rows={2}
+                value={job[question]}
+                onChange={handleChange}
+              />
+              {job[question] && (
+                <button
+                  type="button"
+                  onClick={() => clearField(question)}
+                  className="absolute right-2 top-9 text-gray-500 hover:text-gray-700"
+                >
+                  <HiTrash className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          ))}
+
           {/* Buttons */}
           <div className="flex justify-end gap-4 mt-6">
             <Button color="gray" type="button" onClick={handleBackToDashboard}>
