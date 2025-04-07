@@ -52,7 +52,8 @@ export default function DefaultNavbar() {
             <Link to="/about"className="text-white text-lg font-semibold hover:text-yellow-400 transition-transform transform hover:scale-105">About</Link>
             <Link to="/contact" className="text-white text-lg font-semibold hover:text-yellow-400 transition-transform transform hover:scale-105">Contact</Link>
             {currentUser && (<span className="text-yellow-400 font-semibold text-lg">Hello, {currentUser.first_name || currentUser.company_name}!</span>)}
-            {currentUser && <Button color="gray" pill onClick={() => navigate('/user_profile')}>Profile</Button>}
+            {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_dashboard');} else if (currentUser.company_name) {navigate('/company_dashboard');}}}>Dashboard</Button>)}
+            {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_profile');} else if (currentUser.company_name) {navigate('/company_profile');}}}>Profile</Button>)}
             {currentUser ? (<Button color="warning" pill onClick={handleLogout}>Logout</Button>):(<><Button color="gray" pill onClick={() => navigate('/login')} className="hover:bg-gray-700">Login</Button>
             <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button></>)}
           </div>
