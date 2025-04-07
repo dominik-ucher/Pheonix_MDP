@@ -105,6 +105,42 @@ app.delete('/api/delete_company_logo', async function (req, res) {
     }
 });
 
-app.listen(8801,()=>{
+const Profile_Picture_Storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '../client/upload/Profile_Picture');
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '__' + file.originalname);
+    },
+});
+const Profile_Picture_Upload = multer({ storage: Profile_Picture_Storage });
+app.post('/api/upload_profile_picture', Profile_Picture_Upload.single('file'), function (req, res) {
+  const file = req.file;
+  res.status(200).json(file.filename);
+});
+
+app.delete('/api/delete_profile_picture', async function (req, res) {
+    const fileName = req.body.filename; // Ensure this matches the client-side key
+    const filePath = path.join(__dirname, '../client/upload/Profile_Picture', fileName); // Use path.join for cross-platform compatibility
+
+    try {
+        // Check if the file exists
+        await fs.promises.access(filePath, fs.constants.F_OK);
+
+        // Delete the file
+        await fs.promises.unlink(filePath);
+        res.status(200).json({ message: 'File deleted successfully' });
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            console.error('File not found:', err);
+            res.status(404).json({ message: 'File not found' });
+        } else {
+            console.error('Error deleting file:', err);
+            res.status(500).json({ message: 'Error deleting file' });
+        }
+    }
+});
+
+app.listen(8802,()=>{
     console.log("Connected!")
 })
