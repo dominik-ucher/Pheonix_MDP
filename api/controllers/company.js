@@ -16,6 +16,17 @@ import jwt from "jsonwebtoken";
 //REJECTED/OFFER - THE COMPANY CHANGES STATUS WHEN THE APPLICATION IS IN PROGRESS
 //ACCEPTED - PROFESSIONAL ACCEPTS OFFER
 
+export const getCompany = (req, res) => {
+  const q =
+  "SELECT companies.id, companies.company_name, companies.username, companies.email, companies.vat_number, companies.ateco_code, companies.business_sector, companies.logo, companies.address, companies.description, companies.website_link FROM companies WHERE id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 //1
 export const editCompanyProfile = (req, res) => {
   const { companyId, company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link } = req.body;
