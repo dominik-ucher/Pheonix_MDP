@@ -26,6 +26,27 @@ export const getCompany = (req, res) => {
   });
 };
 
+export const getJobs = (req, res) => {
+  const q = "SELECT * FROM jobs ORDER BY title DESC";
+
+  db.query(q, [], (err, data) => {
+    if (err) return res.status(500).send(err);
+
+    return res.status(200).json(data);
+  });
+};
+
+export const getJob = (req, res) => {
+  const q =
+    "SELECT job.id, job.company_id, job.title, job.location, job.start_date, job.employment_type, job.application_deadline, job.job_description, job.question1, job.question2, job.question3  WHERE id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 //1
 export const editCompanyProfile = (req, res) => {
   const {
