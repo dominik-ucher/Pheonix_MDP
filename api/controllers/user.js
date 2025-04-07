@@ -33,8 +33,7 @@ export const getUser = (req, res) => {
 
 //1
 export const updateProfile = (req, res) => {
-  const { first_name, last_name, birthdate, email, address, phone_number, profile_picture, link_to_cv } = req.body;
-  const { professionalId } = req.params.id;
+  const { professionalId, first_name, last_name, birthdate, email, address, phone_number, profile_picture, link_to_cv } = req.body;
 
   // Validate input data
   if (!first_name || !last_name || !birthdate || !email || !address || !phone_number || !link_to_cv) {

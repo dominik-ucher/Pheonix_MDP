@@ -12,6 +12,7 @@ export default function UserProfile() {
   const { currentUser } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
+    professionalId: "",
     first_name: "",
     last_name: "",
     birthdate: "",
@@ -19,7 +20,7 @@ export default function UserProfile() {
     address: "",
     phone_number: "",
     profile_picture: "",
-    link_to_CV: "",
+    link_to_cv: "",
   });
 
   const [logoFile, setLogoFile] = useState(null);
@@ -38,6 +39,7 @@ export default function UserProfile() {
           const res = await axiosInstance.get(`/api/user/${currentUser.user_id}`);
           const userData = res.data || {};
           setFormData({
+            professionalId: currentUser.user_id,
             first_name: userData.first_name || "",
             last_name: userData.last_name || "",
             birthdate: userData.birthdate || "",
@@ -45,7 +47,7 @@ export default function UserProfile() {
             address: userData.address || "",
             phone_number: userData.phone_number || "",
             profile_picture: userData.profile_picture || "",
-            link_to_CV: userData.link_to_CV || "",
+            link_to_cv: userData.link_to_CV || "",
           });
           setCvFile(userData.link_to_CV || null);
         } catch (err) {
@@ -74,7 +76,7 @@ export default function UserProfile() {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setLogoFile(res.data);
-        setFormData((prev) => ({ ...prev, logo: res.data }));
+        setFormData((prev) => ({ ...prev, profile_picture: res.data }));
       } catch (err) {
         console.error("Upload failed:", err);
         setError("Failed to upload logo.");
@@ -101,7 +103,7 @@ export default function UserProfile() {
 
     const handleUpdate = async () => {
       try {
-        const payload = { ...formData, companyId: currentUser.user_id }; // Ensure companyId is included
+        const payload = { ...formData, professionalId: currentUser.user_id }; 
         await axiosInstance.put("/api/user/update_user_profile", payload, {
           headers: { "Content-Type": "application/json" },
         });
@@ -124,7 +126,7 @@ export default function UserProfile() {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setCvFile(res.data);
-        setInputs((prev) => ({ ...prev, link_to_cv: res.data }));
+        setFormData((prev) => ({ ...prev, link_to_cv: res.data }));
       } catch (err) {
         console.error("Upload failed:", err);
         setError("Failed to upload CV");
@@ -140,7 +142,7 @@ export default function UserProfile() {
       try {
         await axiosInstance.delete("/api/delete_CV", { data: { filename: cvFile } }); // Ensure 'filename' matches the server's key
         setCvFile(null);
-        setInputs((prev) => ({ ...prev, link_to_cv: "" }));
+        setFormData((prev) => ({ ...prev, link_to_cv: "" }));
       } catch (err) {
         console.error("Delete failed:", err);
         setError(err.response?.data || "Failed to delete CV");
@@ -160,7 +162,7 @@ export default function UserProfile() {
             <CgProfile className="w-40 h-40 mx-auto mb-4 border-4 border-orange-500 rounded-full object-cover" />
           ) : (
             <img
-              src={logoFile}
+              src={`/upload/Profile_Picture/${logoFile}`}
               alt="Logo"
               className="w-40 h-40 mx-auto mb-4 border-4 border-orange-500 rounded-full object-cover"
             />
@@ -170,7 +172,7 @@ export default function UserProfile() {
           ) : (
             <div className="flex justify-between items-center bg-gray-100 p-2 rounded">
               <a
-                href={`/upload/Company_Logo/${logoFile}`}
+                href={`/upload/Profile_Picture/${logoFile}`}
                 target="_blank"
                 className="text-blue-500 underline"
               >
