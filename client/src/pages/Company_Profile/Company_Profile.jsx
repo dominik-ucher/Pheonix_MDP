@@ -10,7 +10,6 @@ export default function Company_Profile() {
   const { currentUser } = useContext(AuthContext);
 
   const [formData, setFormData] = React.useState({
-    companyId: currentUser?.id || "",
     company_name: currentUser?.company_name || "",
     username: currentUser?.username || "",
     email: currentUser?.email || "",
@@ -47,7 +46,7 @@ export default function Company_Profile() {
     formDataToSend.append("companyId", currentUser?.id);
 
     try {
-      const response = await axios.post("/api/company/edit_company_profile", formDataToSend, {
+      const response = await axios.put("/api/company/edit_company_profile", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert(response.data.message || "Profile updated successfully!");

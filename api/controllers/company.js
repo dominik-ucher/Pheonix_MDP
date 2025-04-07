@@ -34,10 +34,10 @@ export const editCompanyProfile = (req, res) => {
     // Update company profile
     const updateQuery = `
       UPDATE companies 
-      SET name = ?, description = ?, location = ?, website = ?, contact_email = ? 
+      SET company_name = ?, username = ?, email = ?, vat_number = ?, ateco_code = ?, business_sector = ?, logo = ?, address = ?, description = ?, website_link = ?
       WHERE id = ?
     `;
-    db.query(updateQuery, [name, description, location, website, contact_email, companyId], (err, result) => {
+    db.query(updateQuery, [company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link ], (err, result) => {
       if (err) return res.status(500).json(err);
       if (result.affectedRows === 0) return res.status(404).json("No changes made or company not found.");
 

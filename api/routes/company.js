@@ -3,7 +3,7 @@ import { editCompanyProfile, postJob, updateJob, deleteJob, initiateApplication,
 
 const router = express.Router()
 
-router.post("/edit_company_profile", editCompanyProfile)
+router.put("/edit_company_profile", editCompanyProfile)
 router.post("/create_job", postJob)
 router.post("/update_job", updateJob)
 router.post("/delete_job", deleteJob)
