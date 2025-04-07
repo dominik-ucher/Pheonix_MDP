@@ -7,11 +7,11 @@ import { HiTrash } from "react-icons/hi2";
 export default function Company_Appl_Dashboard() {
   const [job, setJob] = useState({
     title: "",
-    place: "",
-    startDate: "",
-    jobType: "full-time",
-    deadline: "",
-    description: "",
+    location: "",
+    start_date: "",
+    employment_type: "full-time",
+    application_deadline: "",
+    job_description: "",
     question1: "",
     question2: "",
     question3: ""

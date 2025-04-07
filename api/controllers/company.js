@@ -89,34 +89,21 @@ export const editCompanyProfile = (req, res) => {
 
 //2
 export const postJob = (req, res) => {
-  const { companyId, title, location, start_date, employmentType, deadline, salary, description, requirements } = req.body;
+  const { company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3 } = req.body;
 
-  if (!companyId || !title || !location || !start_date || !employmentType || !deadline || !salary || !description || !requirements) {
+  if (!company_id || !title || !location || !start_date || !employment_type || !application_deadline || !description) {
     return res.status(400).json("All fields are required.");
-  }
-
-  // Allowed employment types
-  const validEmploymentTypes = ["Full-time", "Part-time"];
-
-  if (!validEmploymentTypes.includes(employmentType)) {
-    return res.status(400).json(`Invalid employment type. Allowed values: ${validEmploymentTypes.join(", ")}`);
-  }
-
-  // Validate date format (YYYY-MM-DD)
-  const isValidDate = (date) => !isNaN(Date.parse(date));
-  if (!isValidDate(start_date) || !isValidDate(deadline)) {
-    return res.status(400).json("Invalid date format. Use YYYY-MM-DD.");
   }
 
   // Check if company exists
   const checkQuery = "SELECT * FROM companies WHERE id = ?";
-  db.query(checkQuery, [companyId], (err, data) => {
+  db.query(checkQuery, [company_id], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0) return res.status(404).json("Company not found.");
 
     // Insert job into jobs table
-    const insertQuery = "INSERT INTO jobs (company_id, title, description, location, salary, requirements, employment_type, start_date, application_deadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    db.query(insertQuery, [companyId, title, description, location, salary, requirements, employmentType, start_date, deadline], (err, result) => {
+    const insertQuery = "INSERT INTO jobs (company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    db.query(insertQuery, [company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3], (err, result) => {
       if (err) return res.status(500).json(err);
 
       return res.status(200).json({
