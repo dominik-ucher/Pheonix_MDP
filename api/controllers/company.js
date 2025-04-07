@@ -37,7 +37,7 @@ export const editCompanyProfile = (req, res) => {
       SET company_name = ?, username = ?, email = ?, vat_number = ?, ateco_code = ?, business_sector = ?, logo = ?, address = ?, description = ?, website_link = ?
       WHERE id = ?
     `;
-    db.query(updateQuery, [company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link ], (err, result) => {
+    db.query(updateQuery, [company_name, username, email, vat_number, ateco_code, business_sector, logo, address, description, website_link, companyId ], (err, result) => {
       if (err) return res.status(500).json(err);
       if (result.affectedRows === 0) return res.status(404).json("No changes made or company not found.");
 
