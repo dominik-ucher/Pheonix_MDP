@@ -9,26 +9,63 @@ import jwt from "jsonwebtoken";
 // (5) INITIATE APPLICATION - SEND REQUEST TO PROFESSIONAL (INVITE HIM TO APPLY) STATUS SET TO REQUESTED
 // (6)  UPDATE APPLICATION STATUS - FROM IN PROGRESS TO REJECTED/OFFER
 
-
 // POSSIBLE APPLICATION STATUS "REQUESTED" , "IN PROGRESS" , "WITHDRAWN" ,"OFFER", "REJECTED", "ACCEPTED"
 //REQUESTED - COMPANY SENT AN INVITE
 //WITHDRAWN - THE PROFFESIONAL REFUSES AT ANY POINT
 //REJECTED/OFFER - THE COMPANY CHANGES STATUS WHEN THE APPLICATION IS IN PROGRESS
 //ACCEPTED - PROFESSIONAL ACCEPTS OFFER
 
+export const getCompany = (req, res) => {
+  const q =
+    "SELECT companies.id, companies.company_name, companies.username, companies.email, companies.vat_number, companies.ateco_code, companies.business_sector, companies.logo, companies.address, companies.description, companies.website_link FROM companies WHERE id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
+export const getJobs = (req, res) => {
+  const q = "SELECT * FROM jobs ORDER BY title DESC";
+
+  db.query(q, [], (err, data) => {
+    if (err) return res.status(500).send(err);
+
+    return res.status(200).json(data);
+  });
+};
+
+export const getJob = (req, res) => {
+  const q =
+    "SELECT job.id, job.company_id, job.title, job.location, job.start_date, job.employment_type, job.application_deadline, job.job_description, job.question1, job.question2, job.question3  WHERE id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 //1
 export const editCompanyProfile = (req, res) => {
-  const { companyId, name, description, location, website, contact_email } = req.body;
+  const {
+    companyId,
+    company_name,
+    username,
+    email,
+    vat_number,
+    ateco_code,
+    business_sector,
+    logo,
+    address,
+    description,
+    website_link,
+  } = req.body;
 
-  // Ensure that at least one field to update is provided
-  if (!companyId || !name || !description || !location || !website || !contact_email) {
-    return res.status(400).json("All fields (name, description, location, website, contact_email) are required.");
-  }
-
-  // Validate email format
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (!emailRegex.test(contact_email)) {
-    return res.status(400).json("Invalid email format.");
+  // Ensure that the companyId is provided
+  if (!companyId) {
+    return res.status(400).json("Company ID is required.");
   }
 
   // Check if the company exists
@@ -40,57 +77,96 @@ export const editCompanyProfile = (req, res) => {
     // Update company profile
     const updateQuery = `
       UPDATE companies 
-      SET name = ?, description = ?, location = ?, website = ?, contact_email = ? 
+      SET company_name = ?, username = ?, email = ?, vat_number = ?, ateco_code = ?, business_sector = ?, logo = ?, address = ?, description = ?, website_link = ?
       WHERE id = ?
     `;
-    db.query(updateQuery, [name, description, location, website, contact_email, companyId], (err, result) => {
-      if (err) return res.status(500).json(err);
-      if (result.affectedRows === 0) return res.status(404).json("No changes made or company not found.");
+    db.query(
+      updateQuery,
+      [
+        company_name,
+        username,
+        email,
+        vat_number,
+        ateco_code,
+        business_sector,
+        logo,
+        address,
+        description,
+        website_link,
+        companyId,
+      ],
+      (err, result) => {
+        if (err) return res.status(500).json(err);
+        if (result.affectedRows === 0)
+          return res.status(404).json("No changes made or company not found.");
 
-      return res.status(200).json({
-        message: "Company profile updated successfully."
-      });
-    });
+        return res.status(200).json({
+          message: "Company profile updated successfully.",
+        });
+      }
+    );
   });
 };
 
 //2
 export const postJob = (req, res) => {
-  const { companyId, title, location, start_date, employmentType, deadline, salary, description, requirements } = req.body;
+  const {
+    company_id,
+    title,
+    location,
+    start_date,
+    employment_type,
+    application_deadline,
+    job_description,
+    question1,
+    question2,
+    question3,
+  } = req.body;
 
-  if (!companyId || !title || !location || !start_date || !employmentType || !deadline || !salary || !description || !requirements) {
-    return res.status(400).json("All fields are required.");
+  if (!company_id || !title || !location || !start_date || !employment_type || !application_deadline || !job_description) {
+    return res.status(400).json({ error: "All required fields must be filled." });
   }
 
-  // Allowed employment types
-  const validEmploymentTypes = ["Full-time", "Part-time"];
-
-  if (!validEmploymentTypes.includes(employmentType)) {
-    return res.status(400).json(`Invalid employment type. Allowed values: ${validEmploymentTypes.join(", ")}`);
-  }
-
-  // Validate date format (YYYY-MM-DD)
-  const isValidDate = (date) => !isNaN(Date.parse(date));
-  if (!isValidDate(start_date) || !isValidDate(deadline)) {
-    return res.status(400).json("Invalid date format. Use YYYY-MM-DD.");
-  }
-
-  // Check if company exists
   const checkQuery = "SELECT * FROM companies WHERE id = ?";
-  db.query(checkQuery, [companyId], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json("Company not found.");
+  db.query(checkQuery, [company_id], (err, data) => {
+    if (err) {
+      console.error(`Database query error (Check Company): ${err.message}`);
+      return res.status(500).json({ error: "Database error while checking company." });
+    }
 
-    // Insert job into jobs table
-    const insertQuery = "INSERT INTO jobs (company_id, title, description, location, salary, requirements, employment_type, start_date, application_deadline) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    db.query(insertQuery, [companyId, title, description, location, salary, requirements, employmentType, start_date, deadline], (err, result) => {
-      if (err) return res.status(500).json(err);
+    if (data.length === 0) {
+      return res.status(404).json({ error: "Company not found." });
+    }
 
-      return res.status(200).json({
-        message: "Job posted successfully.",
-        jobId: result.insertId
-      });
-    });
+    const insertQuery =
+      "INSERT INTO jobs (company_id, title, location, start_date, employment_type, application_deadline, job_description, question1, question2, question3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    db.query(
+      insertQuery,
+      [
+        company_id,
+        title,
+        location,
+        start_date,
+        employment_type,
+        application_deadline,
+        job_description,
+        question1 || null,
+        question2 || null,
+        question3 || null,
+      ],
+      (err, result) => {
+        if (err) {
+          console.error(`Database query error (Insert Job): ${err.message}`);
+          return res.status(500).json({ error: "Database error while inserting job." });
+        }
+
+        res.status(200).json({
+          message: "Job posted successfully.",
+          jobId: result.insertId,
+        });
+      }
+    );
   });
 };
 
@@ -164,7 +240,6 @@ export const deleteJob = (req, res) => {
     });
   });
 };
-
 
 //5
 export const initiateApplication = (req, res) => {

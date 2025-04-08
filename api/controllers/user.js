@@ -20,37 +20,35 @@ import jwt from "jsonwebtoken";
 //REJECTED/OFFER - THE COMPANY CHANGES STATUS WHEN THE APPLICATION IS IN PROGRESS
 //ACCEPTED - PROFESSIONAL ACCEPTS OFFER
 
+export const getUser = (req, res) => {
+  const q =
+    "SELECT professionals.user_id, professionals.first_name, professionals.last_name, professionals.birthdate, professionals.email, professionals.address, professionals.phone_number, professionals.link_to_CV, professionals.profile_picture FROM professionals WHERE user_id = ?";
+
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data[0]);
+  });
+};
+
 //1
 export const updateProfile = (req, res) => {
-  const { first_name, last_name, birthdate, email, address, phone_number, link_to_cv } = req.body;
-  const { professionalId } = req.params;
+  const { professionalId, first_name, last_name, birthdate, email, address, phone_number, profile_picture, link_to_cv } = req.body;
 
   // Validate input data
   if (!first_name || !last_name || !birthdate || !email || !address || !phone_number || !link_to_cv) {
     return res.status(400).json("All fields are required.");
   }
 
-  // Validate date format (YYYY-MM-DD)
-  const isValidDate = (date) => !isNaN(Date.parse(date)) && /^\d{4}-\d{2}-\d{2}$/.test(date);
-  if (!isValidDate(birthdate)) {
-    return res.status(400).json("Invalid birthdate format. Use YYYY-MM-DD.");
-  }
-
-  // Validate email format
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json("Invalid email format.");
-  }
-
   // Check if email already exists for another user
-  const checkQuery = "SELECT * FROM professionals WHERE email = ? AND id != ?";
+  const checkQuery = "SELECT * FROM professionals WHERE email = ? AND user_id != ?";
   db.query(checkQuery, [email, professionalId], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length) return res.status(409).json("Email is already taken by another user.");
 
     // Update professional details in the table
-    const updateQuery = "UPDATE professionals SET first_name = ?, last_name = ?, birthdate = ?, email = ?, address = ?, phone_number = ?, link_to_cv = ? WHERE id = ?";
-    const values = [first_name, last_name, birthdate, email, address, phone_number, link_to_cv, professionalId];
+    const updateQuery = "UPDATE professionals SET first_name = ?, last_name = ?, birthdate = ?, email = ?, address = ?, phone_number = ?, link_to_cv = ?, profile_picture = ? WHERE user_id = ?";
+    const values = [first_name, last_name, birthdate, email, address, phone_number, link_to_cv, profile_picture, professionalId];
 
     db.query(updateQuery, values, (err, result) => {
       if (err) return res.status(500).json(err);
