@@ -133,7 +133,7 @@ const Register = () => {
         <div className='flex items-center justify-center'>
           <img src={Logo} alt="Company Logo" className='w-32 mr-4'/>
         </div>
-        <h2 className="flex justify-center items-center text-2xl font-bold mb-6">CV Registration</h2>
+        <h2 className="flex justify-center items-center text-2xl font-bold mb-6">Registration</h2>
 
         {/* Voice Registration Section */}
         {hasRecognitionSupport && hasSpeechSupport && currentStep < voiceSteps.length && (
