@@ -1,9 +1,12 @@
 import express from 'express'
-import { editCompanyProfile, postJob, updateJob, deleteJob, initiateApplication, updateApplicationStatus} from '../controllers/company.js'
+import { getCompany, editCompanyProfile, postJob, updateJob, deleteJob, initiateApplication, updateApplicationStatus, getJobs, getJob} from '../controllers/company.js'
 
 const router = express.Router()
 
-router.post("/edit_company_profile", editCompanyProfile)
+router.get("/", getJobs);
+router.get("/:id", getJob);
+router.get("/:id", getCompany);
+router.put("/update_company_profile", editCompanyProfile)
 router.post("/create_job", postJob)
 router.post("/update_job", updateJob)
 router.post("/delete_job", deleteJob)

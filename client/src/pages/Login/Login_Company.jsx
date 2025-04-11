@@ -84,7 +84,7 @@ const Login = () => {
       </Button>
       {err && <p className='bg-red-100 text-red-600 font-semibold text-center p-3 rounded-lg'>{err}</p>}
       <h2>You have not signed up yet?</h2> 
-      <h2>Click <Link className="font-bold underline pointer" to="/register">here</Link> to register a new user!</h2>
+      <h2>Click <Link className="font-bold underline pointer" to="/register_company">here</Link> to register a new company!</h2>
     </form>
     </div>
     </div>
