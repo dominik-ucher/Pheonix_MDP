@@ -54,3 +54,9 @@
     - **Components**: Reusable elements that can appear on multiple pages.
     - **Pages**: Different types of pages on the website.
 - **App.jsx**: Connects all pages and links together in the frontend.
+
+Commit changes to main on GIT. Go onto VPS and "git pull origin main"
+npx yarn build in client
+rm -rf /var/www/Pheonix_MDP/client/index.html && rm -rf /var/www/Pheonix_MDP/client/assets
+cp -r dist/* /var/www/Pheonix_MDP/client
+systemctl reload nginx
