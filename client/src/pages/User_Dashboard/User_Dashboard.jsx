@@ -1,6 +1,7 @@
 "use client";
 import { Button, Card } from "flowbite-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Company_Dashboard() {
   return (
@@ -18,27 +19,29 @@ export default function Company_Dashboard() {
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
               <img src="img/gardiner.jpg" alt="Community Work" className="w-70 h-74 rounded-lg mb-6" />
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
-                Community Work
+                Open Job Positions
               </Button>
-              <p className="text-2xl text-gray-700 text-center mt-6">Make an impact by offering your skills to local projects.</p>
+              <p className="text-2xl text-gray-700 text-center mt-6">Browse for jobs tha fit your skills, profile & preferences </p>
             </div>
 
             {/* Consulting */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
               <img src="img/office.jpg" alt="Consulting" className="w-70 h-74 rounded-lg mb-6" />
+              <Link to="/user_applications" className="w-full">
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
-                Consulting
+                Active applications
               </Button>
-              <p className="text-2xl text-gray-700 text-center mt-6">Use your expertise to guide businesses and professionals.</p>
+              </Link>
+              <p className="text-2xl text-gray-700 text-center mt-6">Check the details regarding your applications.</p>
             </div>
 
             {/* Remote work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
               <img src="img/remotework.jpg" alt="Remote Work" className="w-70 h-74 rounded-lg mb-6" />
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
-                Remote Work
+                Invitations
               </Button>
-              <p className="text-2xl text-gray-700 text-center mt-6">Enjoy flexible hours and work from anywhere.</p>
+              <p className="text-2xl text-gray-700 text-center mt-6">Check which positions you were invited to apply for.</p>
             </div>
           </div>
         </Card>

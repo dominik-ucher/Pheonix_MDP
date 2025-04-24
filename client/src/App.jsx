@@ -19,6 +19,7 @@ import Register from "./pages/Register/Register";
 import RegisterCompany from "./pages/Register/Register_Company";
 import User_Appl_Page from "./pages/User_Appl_Page/User_Appl_Page";
 import User_Dashboard from "./pages/User_Dashboard/User_Dashboard";
+import User_Applications from "./pages/User_Applications/User_Applications";
 import User_Profile from "./pages/User_Profile/User_Profile";
 import Speech_to_text from "./pages/Speech_to_text/Speech_to_text";
 import Text_to_speech from "./pages/Speech_to_text/Text_to_speech";
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path:"/user_appl_page",
         element:<User_Appl_Page/>,
+      },
+      {
+        path:"/user_applications",
+        element:<User_Applications/>,
       },
       {
         path:"/user_dashboard",

@@ -3,6 +3,7 @@ import { Table, Button, Card, Select, Modal } from "flowbite-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaMedal, FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const medalColors = {
   gold: 'text-yellow-500',
@@ -114,9 +115,9 @@ export default function Company_Appl_Dashboard() {
         </Card>
 
         {selectedJob && (
-          <Card className="shadow-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
+          <Card className = "shadow-lg">
+            <div className = "flex justify-between items-center mb-6">
+              <h2 className = "text-2xl font-bold text-gray-800">
                 Applicants for {selectedJob} ({filteredApplicants.length})
               </h2>
               <Button color="gray" onClick={() => setSelectedJob(null)}>
