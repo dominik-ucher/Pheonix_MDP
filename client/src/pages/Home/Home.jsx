@@ -1,5 +1,6 @@
 "use client";
 import { Button, Card } from "flowbite-react";
+import { Link } from 'react-router-dom';
 import React from "react";
 
 export default function Home() {
@@ -63,12 +64,16 @@ export default function Home() {
 
         {/* Call-to-Action Buttons */}
         <div className="mt-12 flex flex-col md:flex-row gap-6 justify-center">
+        <Link to="/register">
           <Button color="gray" size="l" className="text-2xl bg-gray-700 hover:bg-gray-800 focus:ring-gray-600 text-white py-4 px-8">
             Find Your Next Opportunity
           </Button>
+        </Link>
+        <Link to="/register_company">
           <Button color="light" size="l" className="text-2xl bg-gray-200 hover:bg-gray-300 focus:ring-gray-400 text-gray-900 py-4 px-8">
             Hire Experienced Talent
           </Button>
+          </Link>
         </div>
 
         {/* Testimonials Section */}

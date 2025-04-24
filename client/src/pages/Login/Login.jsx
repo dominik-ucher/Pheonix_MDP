@@ -35,7 +35,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(inputs)
-      navigate("/");
+      navigate("/user_dashboard");
     } catch (err) {
       setError(err.response.data);
     }
