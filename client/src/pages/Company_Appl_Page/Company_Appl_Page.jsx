@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiTrash } from "react-icons/hi2";
 import { AuthContext } from "../../context/authContext";
+import { Link } from 'react-router-dom';
 
 export default function Company_Appl_Dashboard() {
   const axiosInstance = axios.create({ baseURL: import.meta.env.VITE_REACT_APP_API_URL });

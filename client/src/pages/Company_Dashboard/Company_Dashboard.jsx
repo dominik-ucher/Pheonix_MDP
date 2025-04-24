@@ -34,14 +34,15 @@ export default function Company_Dashboard() {
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
               <HiOutlineBriefcase className="w-20 h-20 text-gray-900 mb-6" />
               <h2 className="text-3xl font-semibold text-gray-900 text-center">Manage Job Listings</h2>
-              <p className="text-2xl text-gray-700 text-center mb-6">Create, update, and remove job postings with ease.</p>
+              <p className="text-2xl text-gray-700 text-center mb-6">Create job postings with ease. </p>
+              <p className="text-2xl text-gray-700 text-center mb-6"> </p>
               <Button 
                 color="gray" 
                 size="l" 
                 className="mt-6 w-full bg-gray-700 hover:bg-gray-600 text-white text-2xl py-4"
                 onClick={handleJobListingsClick}
               >
-                Go to Job Listings
+                Create new Job Listing
               </Button>
             </div>
 
