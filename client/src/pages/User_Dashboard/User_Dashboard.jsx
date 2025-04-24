@@ -38,9 +38,11 @@ export default function Company_Dashboard() {
             {/* Remote work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
               <img src="img/remotework.jpg" alt="Remote Work" className="w-70 h-74 rounded-lg mb-6" />
+              <Link to="/user_invitations" className="w-full">
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
                 Invitations
               </Button>
+              </Link>
               <p className="text-2xl text-gray-700 text-center mt-6">Check which positions you were invited to apply for.</p>
             </div>
           </div>
