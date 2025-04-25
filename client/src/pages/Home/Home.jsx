@@ -22,7 +22,7 @@ export default function Home() {
         <div className="mb-4 md:mb-12">
           <div className="w-full max-w-5xl mx-auto">
             <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg border border-gray-300">
-              <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover">
+              <video autoPlay loop muted controls className="absolute top-0 left-0 w-full h-full object-cover">
                 <source src={thevideo} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
