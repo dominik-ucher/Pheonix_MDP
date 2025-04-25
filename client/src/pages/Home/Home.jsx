@@ -9,20 +9,20 @@ import thevideo from "../../../upload/Company_Video/GoldingAppVideo.mp4";
 
 export default function Home() {
   return (
-    <div className="bg-gray-50 p-4 md:p-6">
-      <Card className="w-full max-w-none text-center shadow-lg p-6 md:p-8 rounded-lg bg-white">
+    <div className="bg-gray-50 p-2 md:p-6">
+      <Card className="w-full max-w-none text-center shadow-lg p-4 md:p-8 rounded-lg bg-white">
         {/* Hero Section */}
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Empowering Silver Age Professionals</h1>
-        <p className="text-xl md:text-2xl text-gray-700 mb-4">"Silver Age, Golden People"</p>
-        <p className="text-lg md:text-2xl text-gray-600 mb-8">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-2 md:mb-4">Empowering Silver Age Professionals</h1>
+        <p className="text-xl md:text-2xl text-gray-700 mb-2 md:mb-4">"Silver Age, Golden People"</p>
+        <p className="text-lg md:text-2xl text-gray-600 mb-4 md:mb-8">
           Reconnect with the workforce through AI-powered job matching, flexible opportunities, and a supportive community.
         </p>
 
         {/* Video Section */}
-        <div className="mb-8 md:mb-12">
+        <div className="mb-4 md:mb-12">
           <div className="w-full max-w-5xl mx-auto">
-            <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg border-2 border-gray-300">
-              <video autoPlay loop muted controls className="absolute top-0 left-0 w-full h-full object-cover">
+            <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg border border-gray-300">
+              <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover">
                 <source src={thevideo} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
@@ -31,9 +31,9 @@ export default function Home() {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8 text-left">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 text-left">
           {/* AI-Powered Registration */}
-          <div className="p-6 md:p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
+          <div className="p-4 md:p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
             <LightBulbIcon className="w-20 h-20 md:w-28 md:h-28 text-black mb-4 md:mb-6" />
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900 text-center">AI-Powered Registration</h2>
             <p className="text-lg md:text-xl text-gray-700 text-center">
@@ -42,7 +42,7 @@ export default function Home() {
           </div>
 
           {/* Match Display */}
-          <div className="p-6 md:p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
+          <div className="p-4 md:p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
             <UserGroupIcon className="w-20 h-20 md:w-28 md:h-28 text-black mb-4 md:mb-6" />
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900 text-center">Match Display</h2>
             <p className="text-lg md:text-xl text-gray-700 text-center">
@@ -51,7 +51,7 @@ export default function Home() {
           </div>
 
           {/* Premium Services */}
-          <div className="p-6 md:p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
+          <div className="p-4 md:p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
             <ChartBarIcon className="w-20 h-20 md:w-28 md:h-28 text-black mb-4 md:mb-6" />
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900 text-center">Premium Services</h2>
             <p className="text-lg md:text-xl text-gray-700 text-center">
