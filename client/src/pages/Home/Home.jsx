@@ -5,6 +5,7 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
+import thevideo from "../../../upload/Company_Video/GoldingAppVideo.mp4";
 
 export default function Home() {
   return (
@@ -21,13 +22,10 @@ export default function Home() {
         <div className="mb-12">
           <div className="w-full max-w-5xl mx-auto">
             <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg border-2 border-gray-300">
-              <video
-                controls
-                className="absolute top-0 left-0 w-full h-full object-cover"
-              >
-                <source src="upload/Company_Video/GoldingAppVideo.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+            <video autoPlay loop className="absolute top-0 left-0 w-full h-full object-cover"> 
+              <source src={thevideo} type="video/mp4" /> 
+              Your browser does not support the video tag. 
+            </video>
             </div>
           </div>
         </div>
