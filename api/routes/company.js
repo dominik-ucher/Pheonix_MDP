@@ -4,7 +4,7 @@ import { getCompany, editCompanyProfile, postJob, updateJob, deleteJob, initiate
 const router = express.Router()
 
 router.get("/", getJobs);
-router.get("/:id", getJob);
+router.get("/getjob/:id", getJob);
 router.get("/:id", getCompany);
 router.put("/update_company_profile", editCompanyProfile)
 router.post("/create_job", postJob)
