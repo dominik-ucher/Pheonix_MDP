@@ -1,6 +1,9 @@
 "use client";
 import { Button, Card } from "flowbite-react";
 import React from "react";
+import image1 from "../../../img/gardiner.jpg";
+import image2 from "../../../img/office.jpg";
+import image3 from "../../../img/remotework.jpg";
 
 export default function Company_Dashboard() {
   return (
@@ -16,7 +19,7 @@ export default function Company_Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             {/* Community work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
-              <img src="img/gardiner.jpg" alt="Community Work" className="w-70 h-74 rounded-lg mb-6" />
+              <img src={image1} alt="Community Work" className="w-70 h-74 rounded-lg mb-6" />
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
                 Community Work
               </Button>
@@ -25,7 +28,7 @@ export default function Company_Dashboard() {
 
             {/* Consulting */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
-              <img src="img/office.jpg" alt="Consulting" className="w-70 h-74 rounded-lg mb-6" />
+              <img src={image2} alt="Consulting" className="w-70 h-74 rounded-lg mb-6" />
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
                 Consulting
               </Button>
@@ -34,7 +37,7 @@ export default function Company_Dashboard() {
 
             {/* Remote work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
-              <img src="img/remotework.jpg" alt="Remote Work" className="w-70 h-74 rounded-lg mb-6" />
+              <img src={image3} alt="Remote Work" className="w-70 h-74 rounded-lg mb-6" />
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
                 Remote Work
               </Button>
