@@ -71,8 +71,10 @@ export default function DefaultNavbar() {
             <Link to="/" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>Home</Link>
             <Link to="/about" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>About</Link>
             <Link to="/contact" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>Contact</Link>
-            {currentUser && (<Button color="gray" pill onClick={() => {navigate('/user_profile'); setSidebarOpen(false); }}>Profile</Button>)}
-            {currentUser ? (<Button color="warning" pill onClick={() => {handleLogout(); setSidebarOpen(false);}}>Logout</Button>) : (<><Button color="gray" pill onClick={() => {navigate('/login'); setSidebarOpen(false);}}>Login</Button><Button color="gray" pill onClick={() => {navigate('/register'); setSidebarOpen(false); }}>Register</Button></>)}
+            {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_dashboard');} else if (currentUser.company_name) {navigate('/company_dashboard');}}}>Dashboard</Button>)}
+            {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_profile');} else if (currentUser.company_name) {navigate('/company_profile');}}}>Profile</Button>)}
+            {currentUser ? (<Button color="warning" pill onClick={handleLogout}>Logout</Button>):(<><Button color="gray" pill onClick={() => navigate('/login')} className="hover:bg-gray-700">Login</Button>
+            <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button></>)}
           </div>
         </div>
       </nav>
