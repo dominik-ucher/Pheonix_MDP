@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import profileimg from '../../../img/profile.jpg';
+import logo from '../../../img/logo_w_text.png';
 
 export default function About() {
     const axiosInstance = axios.create({ baseURL: import.meta.env.VITE_REACT_APP_API_URL });
@@ -9,55 +11,55 @@ export default function About() {
             name: 'Alfonso Zoia',
             title: 'GSOM',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Simone Cerrato',
             title: 'GSOM',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Stefano Scaccabarozzi',
             title: 'GSOM',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Nicola Bauce',
             title: 'GSOM',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Danilo de Anna',
             title: 'GSOM',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Dominik Leon Ucher',
             title: 'Web Developer',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Abeer Salem Alani',
             title: 'Web Developer',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Miguel Angel Avila Santos',
             title: 'Web Developer',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         },
         {
             name: 'Andreea Bitlan',
             title: 'Web Developer',
             description: 'Student at Politecnico di Milano (POLIMI)',
-            imageUrl: '../../../img/profile.jpg'
+            imageUrl: profileimg,
         }
     ];
 
@@ -67,7 +69,7 @@ export default function About() {
                 <h1 className="text-5xl font-bold mb-4">GOLDINGAPP</h1>
                 <h2 className="text-2xl font-bold mb-4 text-gray-700">The platform to enhance the professionalism of senior workers</h2>
                 <div className="flex flex-col md:flex-row items-center">
-                    <img src="../../../img/logo_2.jpg" alt="Description" className="w-1/3 rounded-lg mb-4 md:mb-0 md:mr-6" />
+                    <img src={logo} alt="Description" className="md:w-1/3 rounded-lg mb-4 md:mb-0 md:mr-6" />
                     <p className="text-lg text-gray-600">GOLDINGAPP® (Phoenix) is an innovative app designed to connect "silver age" workers (50 and over) of the Baby Boomers and X generations with companies looking for skills, experience and suitability. The platform is based on a win-win logic: on the one hand, giving companies privileged access to highly qualified and motivated people; On the other hand, it helps senior professionals to revalue their expertise by providing flexible job opportunities, consultancy or mentorship.</p>
                 </div>
             </section>

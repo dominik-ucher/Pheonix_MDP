@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'flowbite-react';
-import Logo from '../../../img/logo.png';
+import Logo from '../../../img/logo_w_text.png';
 
 const Unauthorized_401 = () => {
   return (
@@ -29,8 +29,8 @@ const Unauthorized_401 = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/3 flex justify-center">
-        <img className="max-w-full h-auto" src={Logo} alt="Logo" />
+      <div className="flex justify-center">
+        <img className="mb-20" src={Logo} alt="Logo" />
       </div>
     </div>
   );

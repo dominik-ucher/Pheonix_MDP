@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Label, TextInput, Select, Textarea, Button, Spinner } from 'flowbite-react';
 import { HiMail } from 'react-icons/hi';
-import Logo from '../../../img/logo.png';
+import Logo from '../../../img/logo_w_text.png';
 import axios from 'axios';
 
 const Contact = () => {
@@ -133,7 +133,7 @@ const Contact = () => {
             <h1 className='font-bold text-xl mt-4 px-4'>Visiting Hours:</h1>
             <h2 className='text-base mt-4 px-4'>We are currently not taking drop-in visiting. To be able to arrange a meeting please fill out the Contact Form and we will get back to you as soon as possible!</h2>
             <div className='flex justify-center items-center mt-4'>
-              <img src={Logo} className="w-2/3" alt="" />
+              <img src={Logo} className="" alt="" />
             </div>
       </div>
     </div>
