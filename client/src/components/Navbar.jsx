@@ -65,7 +65,7 @@ export default function DefaultNavbar() {
         </div>
 
         {/* Mobile Sidebar */}
-        <div className={`fixed top-0 right-0 w-3/4 h-full bg-gradient-to-b from-gray-800 to-black p-6 shadow-lg transform ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-500 ease-in-out`}>
+        <div className={`fixed top-0 right-0 w-3/4 h-full bg-gradient-to-b from-gray-800 to-black p-6 shadow-lg transform ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-500 ease-in-out z-50`}>
           <button className="text-gray-400 text-2xl mb-6 hover:text-gray-200" onClick={() => setSidebarOpen(false)}>x</button>
           <div className="flex flex-col space-y-4">
             <Link to="/" className="text-gray-300 text-lg font-medium hover:text-yellow-400 transition-transform transform hover:scale-105" onClick={() => setSidebarOpen(false)}>Home</Link>
