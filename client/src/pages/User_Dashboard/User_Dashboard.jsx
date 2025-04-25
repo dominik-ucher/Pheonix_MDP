@@ -4,6 +4,7 @@ import React from "react";
 import image1 from "../../../img/Gardiner.jpg";
 import image2 from "../../../img/Office.jpg";
 import image3 from "../../../img/remotework.jpg";
+import { Link } from "react-router-dom";
 
 export default function Company_Dashboard() {
   return (
@@ -20,18 +21,22 @@ export default function Company_Dashboard() {
             {/* Community work */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
               <img src={image1} alt="Community Work" className="w-70 h-74 rounded-lg mb-6" />
+              <Link to="/user_profile" className="w-full">
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
-                Community Work
+                View your Profile
               </Button>
+              </Link>
               <p className="text-2xl text-gray-700 text-center mt-6">Make an impact by offering your skills to local projects.</p>
             </div>
 
             {/* Consulting */}
             <div className="p-8 bg-gray-50 rounded-lg shadow-md flex flex-col items-center border border-yellow-500">
               <img src={image2} alt="Consulting" className="w-70 h-74 rounded-lg mb-6" />
+              <Link to="/user_appl_page" className="w-full">
               <Button color="yellow" size="l" className="w-full bg-yellow-500 hover:bg-yellow-600 text-white text-2xl py-4">
-                Consulting
+                Your Top Job Matches
               </Button>
+              </Link>
               <p className="text-2xl text-gray-700 text-center mt-6">Use your expertise to guide businesses and professionals.</p>
             </div>
 
