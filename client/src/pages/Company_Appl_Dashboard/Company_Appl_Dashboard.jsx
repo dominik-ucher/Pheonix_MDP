@@ -89,23 +89,33 @@ export default function Company_Appl_Dashboard() {
         </Button>
 
         <Card className="mb-6 shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Job Listings</h1>
-          <Table>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">Job Listings</h1> 
+          <Table className="text-xl"> 
             <Table.Head>
-              <Table.HeadCell>Title</Table.HeadCell>
-              <Table.HeadCell>Deadline</Table.HeadCell>
-              <Table.HeadCell>Applicants</Table.HeadCell>
-              <Table.HeadCell>Actions</Table.HeadCell>
+              <Table.HeadCell className="text-xl font-semibold">Title</Table.HeadCell> 
+              <Table.HeadCell className="text-xl font-semibold">Deadline</Table.HeadCell>
+              <Table.HeadCell className="text-xl font-semibold">Applicants</Table.HeadCell>
+              <Table.HeadCell className="text-xl font-semibold">Actions</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {jobListings.map((job, index) => (
                 <Table.Row key={index} className="bg-white">
-                  <Table.Cell>{job.title}</Table.Cell>
-                  <Table.Cell>{job.deadline}</Table.Cell>
-                  <Table.Cell>{job.applicants}</Table.Cell>
-                  <Table.Cell className="flex gap-2">
-                    <Button onClick={() => setSelectedJob(job.title)}>View Applicants</Button>
-                    <Button color="red">Delete</Button>
+                  <Table.Cell className="text-xl">{job.title}</Table.Cell> 
+                  <Table.Cell className="text-xl">{job.deadline}</Table.Cell>
+                  <Table.Cell className="text-xl">{job.applicants}</Table.Cell>
+                  <Table.Cell className="flex gap-3"> 
+                    <Button 
+                      onClick={() => setSelectedJob(job.title)} 
+                      className="text-xl px-4 py-2" 
+                    >
+                      View Applicants
+                    </Button>
+                    <Button 
+                      color="red" 
+                      className="text-xl px-4 py-2" 
+                    >
+                      Delete
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -115,54 +125,54 @@ export default function Company_Appl_Dashboard() {
 
         {selectedJob && (
           <Card className="shadow-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800">
                 Applicants for {selectedJob} ({filteredApplicants.length})
               </h2>
-              <Button color="gray" onClick={() => setSelectedJob(null)}>
+              <Button color="gray" onClick={() => setSelectedJob(null)} className="text-xl px-4 py-2">
                 Back to Listings
               </Button>
             </div>
 
-            <div className="mb-6 relative">
+            <div className="mb-8 relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaSearch className="text-gray-400" />
+                <FaSearch className="text-gray-400 text-xl" />
               </div>
               <input
                 type="text"
                 placeholder="Search applicants..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xl"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
-            <h3 className="text-xl font-semibold mb-4">Top Candidates</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <h3 className="text-2xl font-semibold mb-6">Top Candidates</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               {topApplicants.map((applicant, index) => (
                 <Card key={applicant.id} className="hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-xl font-semibold">
                       {applicant.firstName} {applicant.lastName}
                     </h3>
-                    {index === 0 && <FaMedal className={`w-5 h-5 ${medalColors.gold}`} />}
-                    {index === 1 && <FaMedal className={`w-5 h-5 ${medalColors.silver}`} />}
-                    {index === 2 && <FaMedal className={`w-5 h-5 ${medalColors.bronze}`} />}
+                    {index === 0 && <FaMedal className={`w-6 h-6 ${medalColors.gold}`} />}
+                    {index === 1 && <FaMedal className={`w-6 h-6 ${medalColors.silver}`} />}
+                    {index === 2 && <FaMedal className={`w-6 h-6 ${medalColors.bronze}`} />}
                   </div>
-                  <p className="text-gray-600 mb-1">{applicant.email}</p>
-                  <p className="font-bold text-blue-600 mb-2">{applicant.match}% Match</p>
+                  <p className="text-gray-600 mb-2 text-xl">{applicant.email}</p>
+                  <p className="font-bold text-blue-600 mb-4 text-xl">{applicant.match}% Match</p>
                   <div className="flex justify-between items-center">
                     <Select
                       value={applicant.status}
                       onChange={(e) => handleStatusChange(applicant.id, e.target.value)}
-                      className="flex-1 mr-2"
+                      className="flex-1 mr-2 text-xl p-2"
                     >
-                      <option value="Pending">Pending</option>
-                      <option value="Interview">Interview</option>
-                      <option value="Accepted">Accepted</option>
-                      <option value="Rejected">Rejected</option>
+                      <option value="Pending" className="text-xl">Pending</option>
+                      <option value="Interview" className="text-xl">Interview</option>
+                      <option value="Accepted" className="text-xl">Accepted</option>
+                      <option value="Rejected" className="text-xl">Rejected</option>
                     </Select>
-                    <Button color="light" onClick={() => openApplicantDetails(applicant)}>
+                    <Button color="light" onClick={() => openApplicantDetails(applicant)} className="text-xl px-4 py-2">
                       Details
                     </Button>
                   </div>
@@ -170,55 +180,56 @@ export default function Company_Appl_Dashboard() {
               ))}
             </div>
 
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Other Applicants</h3>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-semibold">Other Applicants</h3>
               <Button
                 color="light"
                 onClick={() => setShowAllApplicants(!showAllApplicants)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-xl px-4 py-2"
               >
                 {showAllApplicants ? (
                   <>
-                    <FaChevronUp /> Show Less
+                    <FaChevronUp className="text-xl" /> Show Less
                   </>
                 ) : (
                   <>
-                    <FaChevronDown /> Show All ({otherApplicants.length})
+                    <FaChevronDown className="text-xl" /> Show All ({otherApplicants.length})
                   </>
                 )}
               </Button>
             </div>
 
             {showAllApplicants && (
-              <Table className="mb-6">
+              <Table className="mb-6 text-xl">
                 <Table.Head>
-                  <Table.HeadCell>Name</Table.HeadCell>
-                  <Table.HeadCell>Email</Table.HeadCell>
-                  <Table.HeadCell>Match</Table.HeadCell>
-                  <Table.HeadCell>Status</Table.HeadCell>
-                  <Table.HeadCell>Actions</Table.HeadCell>
+                  <Table.HeadCell className="text-xl">Name</Table.HeadCell>
+                  <Table.HeadCell className="text-xl">Email</Table.HeadCell>
+                  <Table.HeadCell className="text-xl">Match</Table.HeadCell>
+                  <Table.HeadCell className="text-xl">Status</Table.HeadCell>
+                  <Table.HeadCell className="text-xl">Actions</Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
                   {otherApplicants.map((applicant) => (
                     <Table.Row key={applicant.id} className="bg-white">
-                      <Table.Cell>
+                      <Table.Cell className="text-xl">
                         {applicant.firstName} {applicant.lastName}
                       </Table.Cell>
-                      <Table.Cell>{applicant.email}</Table.Cell>
-                      <Table.Cell className="font-semibold">{applicant.match}%</Table.Cell>
+                      <Table.Cell className="text-xl">{applicant.email}</Table.Cell>
+                      <Table.Cell className="font-semibold text-xl">{applicant.match}%</Table.Cell>
                       <Table.Cell>
                         <Select
                           value={applicant.status}
                           onChange={(e) => handleStatusChange(applicant.id, e.target.value)}
+                          className="text-xl p-2"
                         >
-                          <option value="Pending">Pending</option>
-                          <option value="Interview">Interview</option>
-                          <option value="Accepted">Accepted</option>
-                          <option value="Rejected">Rejected</option>
+                          <option value="Pending" className="text-xl">Pending</option>
+                          <option value="Interview" className="text-xl">Interview</option>
+                          <option value="Accepted" className="text-xl">Accepted</option>
+                          <option value="Rejected" className="text-xl">Rejected</option>
                         </Select>
                       </Table.Cell>
                       <Table.Cell>
-                        <Button color="light" onClick={() => openApplicantDetails(applicant)}>
+                        <Button color="light" onClick={() => openApplicantDetails(applicant)} className="text-xl px-4 py-2">
                           Details
                         </Button>
                       </Table.Cell>

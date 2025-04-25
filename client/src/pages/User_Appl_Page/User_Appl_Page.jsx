@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, Modal } from 'flowbite-react';
 import { FaMedal, FaChevronDown, FaChevronUp, FaSearch } from 'react-icons/fa';
 
+// Sample job data to simulate (Imagine in the backend it its define the top 3 matches)
 const sampleJobs = [
   {
     id: 1,
@@ -74,45 +75,57 @@ const sampleJobs = [
   },
 ];
 
+// Mapping for medal colors based on their type
 const medalColors = {
   gold: 'text-yellow-500',
   silver: 'text-gray-400',
   bronze: 'text-amber-700',
 };
 
+// Main component definition
 const JobApplications = () => {
+  // State for toggling visibility of all jobs
   const [showAllJobs, setShowAllJobs] = useState(false);
+  // State for tracking selected job for modal
   const [selectedJob, setSelectedJob] = useState(null);
+  // State for the job search input
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Filter jobs based on title or company name
   const filteredJobs = sampleJobs.filter(job =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.company.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Divide the filtered list into top 3 jobs and the rest
   const topJobs = filteredJobs.slice(0, 3);
   const otherJobs = filteredJobs.slice(3);
 
+  // Function to open job detail modal
   const openJobDetails = (job) => {
     setSelectedJob(job);
   };
 
+  // Function to close job detail modal
   const closeJobDetails = () => {
     setSelectedJob(null);
   };
 
+  // Function to simulate job application
   const applyForJob = (jobId) => {
     alert(`Application submitted for job ID: ${jobId}`);
     closeJobDetails();
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto text-lg">
+      {/* Page title */}
       <h2 className="text-3xl font-bold mb-6 text-center">Your Job Matches</h2>
 
+      {/* Search bar */}
       <div className="mb-6 relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <FaSearch className="text-gray-400" />
+          <FaSearch className="text-gray-400 text-xl" />
         </div>
         <input
           type="text"
@@ -123,20 +136,25 @@ const JobApplications = () => {
         />
       </div>
 
+      {/* Top job matches */}
       <h3 className="text-2xl font-semibold mb-4">Top Matches</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {topJobs.map((job) => (
           <Card key={job.id} className="p-4 hover:shadow-lg transition-shadow">
+            {/* Job title and medal */}
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-xl font-semibold">{job.title}</h3>
               {job.medal && <FaMedal className={`w-6 h-6 ${medalColors[job.medal]}`} title={job.medal} />}
             </div>
+            {/* Company and match percentage */}
             <p className="text-gray-700 mb-1"><strong>Company:</strong> {job.company}</p>
             <p className="text-gray-600 mb-2">
               <strong>Match:</strong> <span className="font-bold">{job.match}%</span>
             </p>
+            {/* Job description preview */}
             <p className="text-gray-600 mb-4 line-clamp-2">{job.description}</p>
-            <div className="flex justify-between items-center">
+            {/* Buttons to view details or apply */}
+            <div className="text-2xl flex justify-between items-center">
               <Button color="light" onClick={() => openJobDetails(job)}>
                 View Details
               </Button>
@@ -148,6 +166,7 @@ const JobApplications = () => {
         ))}
       </div>
 
+      {/* Toggle for showing more or fewer jobs */}
       <div className="mb-6 flex justify-between items-center">
         <h3 className="text-2xl font-semibold">Other Opportunities</h3>
         <Button
@@ -167,18 +186,22 @@ const JobApplications = () => {
         </Button>
       </div>
 
+      {/* Additional jobs if expanded */}
       {showAllJobs && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {otherJobs.map((job) => (
             <Card key={job.id} className="p-4 hover:shadow-lg transition-shadow">
+              {/* Job title and match */}
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xl font-semibold">{job.title}</h3>
                 <span className="text-sm font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">
                   {job.match}% match
                 </span>
               </div>
+              {/* Company and description */}
               <p className="text-gray-700 mb-1"><strong>Company:</strong> {job.company}</p>
               <p className="text-gray-600 mb-4 line-clamp-2">{job.description}</p>
+              {/* Buttons for details and apply */}
               <div className="flex justify-between items-center">
                 <Button color="light" onClick={() => openJobDetails(job)}>
                   Details
@@ -192,7 +215,7 @@ const JobApplications = () => {
         </div>
       )}
 
-      {/* Job Details Modal */}
+      {/* Modal for job detail view */}
       <Modal show={selectedJob !== null} onClose={closeJobDetails} size="xl">
         {selectedJob && (
           <>
@@ -206,6 +229,7 @@ const JobApplications = () => {
             </Modal.Header>
             <Modal.Body>
               <div className="space-y-4">
+                {/* Job metadata section */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-semibold">Company</h4>
@@ -225,11 +249,13 @@ const JobApplications = () => {
                   </div>
                 </div>
 
+                {/* Full job description */}
                 <div>
                   <h4 className="font-semibold">Job Description</h4>
                   <p className="text-gray-700">{selectedJob.description}</p>
                 </div>
 
+                {/* Requirements list */}
                 <div>
                   <h4 className="font-semibold">Requirements</h4>
                   <ul className="list-disc pl-5 space-y-1">
@@ -241,6 +267,7 @@ const JobApplications = () => {
               </div>
             </Modal.Body>
             <Modal.Footer>
+              {/* Modal action buttons */}
               <div className="flex justify-end gap-3">
                 <Button color="light" onClick={closeJobDetails}>
                   Close

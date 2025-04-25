@@ -1,5 +1,9 @@
-"use client";
 import { Button, Card } from "flowbite-react";
+import {
+  LightBulbIcon,
+  UserGroupIcon,
+  ChartBarIcon,
+} from "@heroicons/react/24/outline";
 import React from "react";
 
 export default function Home() {
@@ -13,17 +17,26 @@ export default function Home() {
           Reconnect with the workforce through AI-powered job matching, flexible opportunities, and a supportive community.
         </p>
 
+        {/* Video Section */}
+        <div className="mb-12">
+          <div className="w-full max-w-5xl mx-auto">
+            <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg border-2 border-gray-300">
+              <video
+                controls
+                className="absolute top-0 left-0 w-full h-full object-cover"
+              >
+                <source src="upload/Company_Video/GoldingAppVideo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
         {/* Feature Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
           {/* AI-Powered Registration */}
           <div className="p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-            <div className="mb-6"> 
-              <img 
-                src="https://images.pexels.com/photos/5592279/pexels-photo-5592279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                alt="AI icon" 
-                className="w-60 h-60 rounded-full object-cover border-2 border-gray-300" 
-              />
-            </div>
+            <LightBulbIcon className="w-28 h-28 text-black mb-6" />
             <h2 className="text-2xl font-semibold text-gray-900 text-center">AI-Powered Registration</h2>
             <p className="text-xl text-gray-700 text-center">
               Register through an AI-driven interview with voice-to-text features to create a detailed profile effortlessly for better matching.
@@ -32,13 +45,7 @@ export default function Home() {
 
           {/* Match Display */}
           <div className="p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-            <div className="mb-6"> 
-              <img 
-                src="https://images.pexels.com/photos/7267538/pexels-photo-7267538.jpeg" 
-                alt="Match icon" 
-                className="w-60 h-60 rounded-full object-cover border-2 border-gray-300" 
-              />
-            </div>
+            <UserGroupIcon className="w-28 h-28 text-black mb-6" />
             <h2 className="text-2xl font-semibold text-gray-900 text-center">Match Display</h2>
             <p className="text-xl text-gray-700 text-center">
               View detailed compatibility results with companies and professionals to find the best opportunities.
@@ -47,13 +54,7 @@ export default function Home() {
 
           {/* Premium Services */}
           <div className="p-8 bg-gray-100 rounded-lg shadow-md flex flex-col items-center border border-gray-200">
-            <div className="mb-6"> 
-              <img 
-                src="https://images.pexels.com/photos/5716042/pexels-photo-5716042.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                alt="Premium icon" 
-                className="w-60 h-60 rounded-full object-cover border-2 border-gray-300" 
-              />
-            </div>
+            <ChartBarIcon className="w-28 h-28 text-black mb-6" />
             <h2 className="text-2xl font-semibold text-gray-900 text-center">Premium Services</h2>
             <p className="text-xl text-gray-700 text-center">
               Access advanced features like training paths, upskilling courses, and detailed match analysis.
@@ -71,8 +72,8 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* Testimonials Section */}
-        <div className="mt-12 bg-gray-100 p-8 rounded-lg">
+         {/* Testimonials Section */}
+         <div className="mt-12 bg-gray-100 p-8 rounded-lg">
           <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">What Our Users Say</h2>
 
           {/* Testimonials from Job Seekers */}
