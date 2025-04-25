@@ -111,12 +111,12 @@ export default function Company_Profile() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
-      <Card className="w-full max-w-4xl shadow-lg p-8 rounded-lg bg-white">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4 sm:p-6">
+      <Card className="w-full max-w-lg sm:max-w-4xl shadow-lg p-6 sm:p-8 rounded-lg bg-white">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
           Company Profile
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
           <div>
             <label className="block text-gray-700 font-semibold">Legal Company Name</label>
             <TextInput
@@ -203,7 +203,7 @@ export default function Company_Profile() {
                 <a
                   href={`/upload/Company_Logo/${logoFile}`}
                   target="_blank"
-                  className="text-blue-500 underline"
+                  className="text-blue-500 underline text-sm sm:text-base"
                 >
                   {logoFile.split("__")[1]}
                 </a>
@@ -214,18 +214,19 @@ export default function Company_Profile() {
             )}
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-1 sm:col-span-2">
             <label className="block text-gray-700 font-semibold">Company Description</label>
             <Textarea
               name="description"
               placeholder="Provide a brief company description"
-              rows={4}
+              rows={3}
+              className="text-sm sm:text-base"
               value={formData.description}
               onChange={handleInputChange}
             />
           </div>
 
-          <div className="col-span-2">
+          <div className="col-span-1 sm:col-span-2">
             <label className="block text-gray-700 font-semibold">Company Website</label>
             <TextInput
               type="url"
@@ -237,7 +238,7 @@ export default function Company_Profile() {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-center gap-4">
+        <div className="mt-4 sm:mt-6 flex justify-center gap-2 sm:gap-4">
           <Button color="blue" size="lg" onClick={handleUpdate}>
             Update
           </Button>
