@@ -13,10 +13,6 @@ import userGetRoutes from './routes/user_get.js'
 import userRoutes from './routes/user.js'
 import companyRoutes from './routes/company.js'
 
-// Define __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const app = express();
 
 app.use(express.json())
@@ -49,7 +45,7 @@ app.post('/api/upload_CV', CV_Upload.single('file'), function (req, res) {
 
 app.delete('/api/delete_CV', async function (req, res) {
     const fileName = req.body.filename; // Ensure this matches the client-side key
-    const filePath = path.join(__dirname, process.env.URL_API_PATH + '/upload/CV', fileName); // Use path.join for cross-platform compatibility
+    const filePath = path.join(process.env.URL_API_PATH + '/upload/CV', fileName); // Use path.join for cross-platform compatibility
 
     try {
         // Check if the file exists
@@ -85,7 +81,7 @@ app.post('/api/upload_company_logo', Company_Logo_Upload.single('file'), functio
 
 app.delete('/api/delete_company_logo', async function (req, res) {
     const fileName = req.body.filename; // Ensure this matches the client-side key
-    const filePath = path.join(__dirname, process.env.URL_API_PATH + '/upload/Company_Logo', fileName); // Use path.join for cross-platform compatibility
+    const filePath = path.join(process.env.URL_API_PATH + '/upload/Company_Logo', fileName); // Use path.join for cross-platform compatibility
 
     try {
         // Check if the file exists
@@ -121,7 +117,7 @@ app.post('/api/upload_profile_picture', Profile_Picture_Upload.single('file'), f
 
 app.delete('/api/delete_profile_picture', async function (req, res) {
     const fileName = req.body.filename; // Ensure this matches the client-side key
-    const filePath = path.join(__dirname, process.env.URL_API_PATH + '/upload/Profile_Picture', fileName); // Use path.join for cross-platform compatibility
+    const filePath = path.join(process.env.URL_API_PATH + '/upload/Profile_Picture', fileName); // Use path.join for cross-platform compatibility
 
     try {
         // Check if the file exists
