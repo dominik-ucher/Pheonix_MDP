@@ -1,8 +1,8 @@
 "use client";
 import { Button, Card } from "flowbite-react";
 import React from "react";
-import image1 from "../../../img/gardiner.jpg";
-import image2 from "../../../img/office.jpg";
+import image1 from "../../../img/Gardiner.jpg";
+import image2 from "../../../img/Office.jpg";
 import image3 from "../../../img/remotework.jpg";
 
 export default function Company_Dashboard() {
