@@ -40,7 +40,7 @@ export default function DefaultNavbar() {
         <div className="flex justify-between items-center px-6 py-4">
           {/* Logo and Title */}
           <Link to="/" className="flex items-center">
-            <img src={Logo} alt="Logo" className="h-12" />
+            <img src={Logo} alt="Logo" className="h-16" />
             <h1 className="ml-4 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
               GoldingApp
             </h1>
