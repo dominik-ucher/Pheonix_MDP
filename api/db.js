@@ -9,6 +9,8 @@ export const db = mysql.createConnection({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     // socketPath: "/var/run/mysqld/mysqld.sock",
+    connectionLimit: 20,     // Max 10 connections at a time
+    queueLimit: 0,
 });
 
 db.connect((err) => {

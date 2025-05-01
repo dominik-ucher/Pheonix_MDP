@@ -55,7 +55,8 @@ export default function DefaultNavbar() {
             {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_dashboard');} else if (currentUser.company_name) {navigate('/company_dashboard');}}}>Dashboard</Button>)}
             {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_profile');} else if (currentUser.company_name) {navigate('/company_profile');}}}>Profile</Button>)}
             {currentUser ? (<Button color="warning" pill onClick={handleLogout}>Logout</Button>):(<><Button color="gray" pill onClick={() => navigate('/login')} className="hover:bg-gray-700">Login</Button>
-            <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button></>)}
+            <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button>
+            <Button pill onClick={() => navigate('/register')} className="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-white hover:from-yellow-500 hover:via-red-600 hover:to-pink-600">Register with AI</Button></>)}
           </div>
 
           {/* Mobile Menu Button */}
@@ -74,7 +75,8 @@ export default function DefaultNavbar() {
             {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_dashboard');} else if (currentUser.company_name) {navigate('/company_dashboard');}}}>Dashboard</Button>)}
             {currentUser && (<Button color="gray" pill onClick={() => { if (currentUser.first_name) {navigate('/user_profile');} else if (currentUser.company_name) {navigate('/company_profile');}}}>Profile</Button>)}
             {currentUser ? (<Button color="warning" pill onClick={handleLogout}>Logout</Button>):(<><Button color="gray" pill onClick={() => navigate('/login')} className="hover:bg-gray-700">Login</Button>
-            <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button></>)}
+            <Button color="gray" pill onClick={() => navigate('/register')} className="hover:bg-gray-700">Register</Button>
+            <Button pill onClick={() => navigate('/register')} className="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-white hover:from-yellow-500 hover:via-red-600 hover:to-pink-600">Register with AI</Button></>)}
           </div>
         </div>
       </nav>
